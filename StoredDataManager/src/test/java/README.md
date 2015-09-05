@@ -1,0 +1,1 @@
+Aquí irán todas las clases de prueba del módulo StoredDataManager

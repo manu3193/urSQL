@@ -1,0 +1,1 @@
+Aquí irán todos los casos de prueba del módulo CLI
