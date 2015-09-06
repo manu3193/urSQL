@@ -11,6 +11,8 @@
     <module>API</module>
     <module>DatabaseRuntimeProcessor</module>
     <module>StoredDataManager</module>
+    <module>SystemCatalog</module>
+    <module>StoredData</module>
   </modules>
   <packaging>pom</packaging>
 
