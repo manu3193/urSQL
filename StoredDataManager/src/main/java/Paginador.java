@@ -12,7 +12,7 @@ public class Paginador {
 
 
     /**
-     * Almacena el estado de la pagina en disco o cache
+     * Almacena el estado del paginador
      */
     private short mEstadoPag;
 
@@ -37,12 +37,19 @@ public class Paginador {
     private short mReservado;
 
     /**
-     * Referencia del objeto PaginadorCache
+     * Referencia de la referencia a PaginadorCache
      */
-    private PaginadorCache Pcache;
+    private ManejoPaginadorCache mManejoPcache;
 
+    /**
+     * Referencia
+     */
+    private String mDescFicheroDB;
 
 
     public Paginador() {
     }
+
+
+
 }
