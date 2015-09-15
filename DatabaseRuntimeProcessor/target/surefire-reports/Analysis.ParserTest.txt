@@ -1,0 +1,7 @@
+-------------------------------------------------------------------------------
+Test set: Analysis.ParserTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.027 sec <<< FAILURE!
+testParse(Analysis.ParserTest)  Time elapsed: 0.012 sec  <<< ERROR!
+java.lang.NullPointerException
+	at Analysis.ParserTest.testParse(ParserTest.java:37)

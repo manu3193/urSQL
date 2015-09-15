@@ -3,6 +3,7 @@
  */
 public class ManejoPaginador {
 
+    
     /**
      * Metodo que abre un paginador para realizar operaciones
      * @return Retorna la referencia al paginador de la nueva base de datos
@@ -22,11 +23,10 @@ public class ManejoPaginador {
 
     /**
      * Metodo encargado de copiar la pagina al cache y devolver una referencia a esta
-     * @return Retorna la referencia a la página en caché
+     * //@return Retorna la referencia a la página en caché
      */
-    public Pagina obtenerPagina(int numeroPagina){
-        Pagina A = new Pagina();
-        return A;
+    public void obtenerPagina(int numeroPagina){
+       
     }
 
     /**

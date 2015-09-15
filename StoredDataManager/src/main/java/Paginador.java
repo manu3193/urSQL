@@ -30,7 +30,17 @@ public class Paginador {
      * Almacena el tama;o de los sectores del disco
      */
     private int mSectorSize;
-
+    
+    /**
+     * Cantidad de bytes en una página
+     */
+    private int mPaginaSize;
+    /**
+     * Atributo que describe el tamaño máximo posible para el archivo
+     * de la base de datos
+     */
+    private int mMaxPagNumero;
+    
     /**
      * Almacena el numero de bytes sin uso al final de cada pagina
      */
@@ -39,12 +49,14 @@ public class Paginador {
     /**
      * Referencia de la referencia a PaginadorCache
      */
-    private ManejoPaginadorCache mManejoPcache;
+    private PaginadorCache mManejoPcache;
 
     /**
      * Referencia
      */
     private String mDescFicheroDB;
+    
+    
 
 
     public Paginador() {
