@@ -1,1 +1,0 @@
-Aquí irán todas las clases del módulo StoredDataManager

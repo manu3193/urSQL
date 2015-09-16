@@ -1,1 +1,0 @@
-Aquí irán todos los archivos de configuración de la GUI
