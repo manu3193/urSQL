@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 /**
  *
- * @author nicolasjimenez
+ * @author Nicolas Jimenez
  */
 public class PlanEjecuccion {
 

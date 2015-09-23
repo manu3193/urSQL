@@ -15,24 +15,21 @@ import java.util.StringTokenizer;
  */
 public class LexicalAnalysis {
     
-    private final String instruction;
-    private final ArrayList<String> outputInstruction;
+
     
-    public LexicalAnalysis( String inputInstruction){
-        
-        this.instruction = inputInstruction;
-        this.outputInstruction = new ArrayList<String>();
-    } 
     
-    public ArrayList<String> tokenize () {
+    public ArrayList<String> tokenize (String instruction) {
         
         StringTokenizer tokens = new StringTokenizer( instruction );
-       
+        ArrayList<String> outputInstruction = new ArrayList();
+        
         while ( tokens.hasMoreElements() ) {
-            
+
             outputInstruction.add( tokens.nextToken() );
         } 
         return outputInstruction;
     } 
+    
+
     
 }

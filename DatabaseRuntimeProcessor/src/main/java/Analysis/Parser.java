@@ -13,6 +13,10 @@ public class Parser {
     private final ArrayList<String> comparators;
     private final ArrayList<String> aggregate;
 
+    /**
+     *
+     * @param instruction
+     */
     public Parser(ArrayList<String> instruction) {
 
         this.instruction = instruction;     // Comparadores 

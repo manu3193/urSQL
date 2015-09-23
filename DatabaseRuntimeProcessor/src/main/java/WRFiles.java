@@ -24,19 +24,20 @@ public class WRFiles {
             // Assume default encoding.
             FileWriter fileWriter = new FileWriter(fileName);
 
-            // Always wrap FileWriter in BufferedWriter.
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-
             // Note that write() does not automatically
             // append a newline character.
-            for (String line : input) {
-
-                bufferedWriter.write(line);
-                bufferedWriter.newLine();
+            try ( // Always wrap FileWriter in BufferedWriter.
+                    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
+                // Note that write() does not automatically
+                // append a newline character.
+                for (String line : input) {
+                    
+                    bufferedWriter.write(line);
+                    bufferedWriter.newLine();
+                }
+                
+                // Always close files.
             }
-
-            // Always close files.
-            bufferedWriter.close();
         } catch (IOException ex) {
             System.out.println("Error writing to file '" + fileName + "'");
         }
@@ -49,22 +50,21 @@ public class WRFiles {
     public ArrayList<String> reader(String fileName) {
 
         // This will reference one line at a time
-        String line = null;
+        String line= null;
         ArrayList<String> output = new ArrayList();
         int i = 0;
         try {
             // FileReader reads text files in the default encoding.
             FileReader fileReader = new FileReader(fileName);
 
-            // Always wrap FileReader in BufferedReader.
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-
-            while ((line = bufferedReader.readLine()) != null) {
-                output.add(line);
-                System.out.println(line);
+            try ( // Always wrap FileReader in BufferedReader.
+                    BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+                while ((line = bufferedReader.readLine()) != null) {
+                    output.add(line);
+                    System.out.println(line);
+                }
+                // Always close files.
             }
-            // Always close files.
-            bufferedReader.close();
         } catch (FileNotFoundException ex) {
             System.out.println("Unable to open file '" + fileName + "'");
         } catch (IOException ex) {
