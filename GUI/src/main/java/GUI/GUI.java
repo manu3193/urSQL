@@ -3,7 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package GUI;
 
+import Analysis.LexicalAnalysis;
+import Analysis.Parser;
 
 /**
  *
@@ -14,6 +17,7 @@ public class GUI extends javax.swing.JFrame {
     /**
      * Creates new form GUI
      */
+    String[] line;
     public GUI() {
         initComponents();
         TextLineNumber numLine = new TextLineNumber(textEditor);
@@ -26,6 +30,8 @@ public class GUI extends javax.swing.JFrame {
         
         TreeSample tre = new TreeSample();
         treeScrollPanel.setViewportView(tre.tree);
+        
+        
     }
     
 
@@ -46,6 +52,10 @@ public class GUI extends javax.swing.JFrame {
         checkScrollPanel = new javax.swing.JScrollPane();
         textScrollPanel = new javax.swing.JScrollPane();
         textEditor = new javax.swing.JTextPane();
+        menuBar = new javax.swing.JMenuBar();
+        File = new javax.swing.JMenu();
+        Edit = new javax.swing.JMenu();
+        Run = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -71,10 +81,27 @@ public class GUI extends javax.swing.JFrame {
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(treeScrollPanel)
             .addGroup(mainPanelLayout.createSequentialGroup()
-                .addComponent(textScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
+                .addComponent(textScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(outputTab, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+
+        File.setText("File");
+        menuBar.add(File);
+
+        Edit.setText("Edit");
+
+        Run.setText("Run");
+        Run.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RunActionPerformed(evt);
+            }
+        });
+        Edit.add(Run);
+
+        menuBar.add(Edit);
+
+        setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -84,11 +111,28 @@ public class GUI extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void RunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RunActionPerformed
+        // TODO add your handling code here:
+        line = textEditor.getText().split("\\n");
+        int count = 0;
+        LexicalAnalysis lex = new LexicalAnalysis();
+        Parser par = new Parser();
+        while (count <line.length){
+            if (par.parse(lex.tokenize(line[count]))){
+                System.out.println("True");
+            }else{
+                int linea = count+1;
+                System.out.println("Error in line: " + linea);
+            }
+        count++;}
+        
+    }//GEN-LAST:event_RunActionPerformed
 
     /**
      * @param args the command line arguments
@@ -127,8 +171,12 @@ public class GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu Edit;
+    private javax.swing.JMenu File;
+    private javax.swing.JMenuItem Run;
     private javax.swing.JScrollPane checkScrollPanel;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JMenuBar menuBar;
     private javax.swing.JScrollPane outputScrollPanel;
     private javax.swing.JTabbedPane outputTab;
     private javax.swing.JTextPane textEditor;

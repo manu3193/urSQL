@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+package GUI;
 //Tomado de:
 //https://tips4java.wordpress.com/2009/05/23/text-component-line-number/
 
