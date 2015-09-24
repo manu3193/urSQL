@@ -635,7 +635,6 @@ public class Parser {
             } else if (currentToken.equals(endToken)) { //llega a from, sin pasar por los aggregate functions.
 
                 if (!last) {
-                    System.out.println("hjh");
                     return -1;
                 }
                 return i;
