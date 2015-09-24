@@ -9,18 +9,15 @@ import java.util.ArrayList;
  */
 public class Parser {
 
-    private final ArrayList<String> instruction;
     private final ArrayList<String> comparators;
     private final ArrayList<String> aggregate;
 
     /**
      *
-     * @param instruction
      */
-    public Parser(ArrayList<String> instruction) {
-
-        this.instruction = instruction;     // Comparadores 
-        comparators = new ArrayList();
+    public Parser() {
+                                                                        
+        comparators = new ArrayList();           // Comparadores 
         comparators.add("<");
         comparators.add(">");
         comparators.add("=");
@@ -36,11 +33,12 @@ public class Parser {
 
     /**
      * Llama a whatOperation para realizar el analisis.
+     * @param instruction
      * @return 
      */
-    public boolean parse() {
+    public boolean parse( ArrayList<String> instruction ) {
 
-        return whatOperation();
+        return whatOperation( instruction);
     }
 
     /**
@@ -48,10 +46,10 @@ public class Parser {
      * A menos de que sea muy trivial, entonces se comprueba aqui mismo.
      * @return 
      */
-    private boolean whatOperation() {
+    private boolean whatOperation( ArrayList<String> instruction  )  {
 
         int instructionSize = instruction.size();
-
+        
         if (instructionSize == 0) {
             return false;
         }
@@ -76,18 +74,18 @@ public class Parser {
 
             } else if (token1.equalsIgnoreCase("table")) {
 
-                return createTable(instructionSize);
+                return createTable(instruction, instructionSize);
 
             } else if (token1.equalsIgnoreCase("index")) {
 
-                return createIndex(instructionSize);
+                return createIndex(instruction, instructionSize);
             } else {
                 return false;
             }
         }
         if (token0.equalsIgnoreCase("drop")) {
 
-            return drop(instructionSize);
+            return drop(instruction, instructionSize);
         }
         if (token0.equalsIgnoreCase("list")) {
 
@@ -119,23 +117,23 @@ public class Parser {
         }
         if (token0.equalsIgnoreCase("alter")) {
 
-            return alter(instructionSize);
+            return alter(instruction, instructionSize);
         }
         if (token0.equalsIgnoreCase("select")) {
 
-            return select(instructionSize);
+            return select(instruction, instructionSize);
         }
         if (token0.equalsIgnoreCase("update")) {
 
-            return update(instructionSize);
+            return update(instruction, instructionSize);
         }
         if (token0.equalsIgnoreCase("delete")) {
 
-            return delete(instructionSize);
+            return delete(instruction, instructionSize);
         }
         if (token0.equalsIgnoreCase("insert")) {
 
-            return insert(instructionSize);
+            return insert(  instruction , instructionSize);
         } else {
             return false;
         }
@@ -146,7 +144,7 @@ public class Parser {
      * @param size
      * @return 
      */
-    private boolean drop(int size) {
+    private boolean drop(ArrayList<String> instruction, int size) {
 
         if (size != 3) {
             return false;
@@ -167,7 +165,7 @@ public class Parser {
      * @param size
      * @return 
      */
-    private boolean createTable(int size) {
+    private boolean createTable(ArrayList<String> instruction,  int size) {
  
         if (size < 15) {
             return false;
@@ -176,7 +174,7 @@ public class Parser {
                 || !instruction.get(3).equalsIgnoreCase("as") || !instruction.get(4).equals("(")) {
             return false;
         }
-        int continuar = columnDefinition(5, size, "primary");  // El metodo column Definition revisa que las columnas declaras
+        int continuar = columnDefinition(instruction, 5, size, "primary");  // El metodo column Definition revisa que las columnas declaras
         if (continuar == -1) {                                                   // Esten correctas   
             return false;
         }
@@ -198,7 +196,7 @@ public class Parser {
      * @param size
      * @return 
      */
-    private boolean createIndex(int size) {
+    private boolean createIndex(ArrayList<String> instruction,  int size) {
 
         if (instruction.size() != 8) {
             return false;
@@ -214,7 +212,7 @@ public class Parser {
      * @param size
      * @return 
      */
-    private boolean alter(int size) {
+    private boolean alter( ArrayList<String> instruction, int size) {
 
         if (size != 15) {
             return false;
@@ -243,17 +241,17 @@ public class Parser {
      * @param size
      * @return 
      */
-    private boolean select(int size) {
+    private boolean select( ArrayList<String> instruction, int size) {
 
         if (size < 4) {
             return false;
         }
-        int continuar = columns(1, size, "from"); // Revisa que las columnas esten bien puestas
+        int continuar = columns(instruction, 1, size, "from"); // Revisa que las columnas esten bien puestas
 
         if (continuar == -1 || !(size > continuar + 1)) {
             return false;
         }
-        continuar = join(continuar + 1, size);// revisa la sentencia join o la unica tabla
+        continuar = join(instruction,continuar + 1, size);// revisa la sentencia join o la unica tabla
 
         if (continuar == 0) {
             return true;
@@ -273,7 +271,7 @@ public class Parser {
 
                     if (size > continuar + 5) {
 
-                        continuar = whereStatement(continuar, continuar + 5, continuar + 4);  // si termina el where en un is not null
+                        continuar = whereStatement(instruction, continuar, continuar + 5, continuar + 4);  // si termina el where en un is not null
                         if (continuar == -1) {                                                                          // entonces se sigue
                            
                             return false;
@@ -282,7 +280,7 @@ public class Parser {
 
                     } else if (size == continuar + 5) {                       // si termina el where con un is not null
 
-                        return whereStatement(continuar, size, continuar + 4) != -1;
+                        return whereStatement(instruction, continuar, size, continuar + 4) != -1;
                     } else {
                         return false;
                     }
@@ -290,7 +288,7 @@ public class Parser {
                 } else if (instruction.get(continuar + 4).equalsIgnoreCase("group")                               //ehereefefefef****
                         || instruction.get(continuar + 4).equalsIgnoreCase("for")) {
    
-                    continuar = whereStatement(continuar, continuar + 4, continuar + 4); // si de fijo sigue y no hay is not null
+                    continuar = whereStatement(instruction,continuar, continuar + 4, continuar + 4); // si de fijo sigue y no hay is not null
                     if (continuar == -1) {
                         return false;  
                     }
@@ -300,7 +298,7 @@ public class Parser {
                 }
             } else if (size == continuar + 4) {
 
-                return whereStatement(continuar, size, continuar + 4) != -1;  //si ya es el fin un where sin (not null)
+                return whereStatement(instruction,continuar, size, continuar + 4) != -1;  //si ya es el fin un where sin (not null)
             }           // El where revisa el where si existe
         }
 
@@ -351,7 +349,7 @@ public class Parser {
      * @param size
      * @return 
      */
-    private boolean update(int size) {
+    private boolean update(ArrayList<String> instruction, int size) {
 
         if (size < 6) {
             return false;
@@ -367,7 +365,7 @@ public class Parser {
         if (size < 10 || size > 11) {
             return false;
         }
-        return whereStatement(6, size, 10) != -1;  //metodo auxiliar el 6 equivale al punto de inicio, el size tamano
+        return whereStatement(instruction, 6, size, 10) != -1;  //metodo auxiliar el 6 equivale al punto de inicio, el size tamano
                                                                         // El 10 es el punto de requerimiento de finalizacion 
     }
 
@@ -376,7 +374,7 @@ public class Parser {
      * @param size
      * @return 
      */
-    private boolean delete(int size) {
+    private boolean delete(ArrayList<String> instruction, int size) {
 
         if (size < 3 || !(instruction.get(1).equalsIgnoreCase("from")) || isNumeric(instruction.get(2))) {
             return false;
@@ -387,7 +385,7 @@ public class Parser {
         if (size < 7 || size > 8) {
             return false;
         }                                                               //metodo auxiliar el 3 equivale al punto de inicio, el size tamano
-        return whereStatement(3, size, 7) != -1;   //  // El 7 es el punto de requeriemiento de finalizacion 
+        return whereStatement(instruction,3, size, 7) != -1;   //  // El 7 es el punto de requeriemiento de finalizacion 
     }
 
     /**
@@ -396,7 +394,7 @@ public class Parser {
      * @param size
      * @return 
      */
-    private boolean insert(int size) {
+    private boolean insert(ArrayList<String> instruction, int size) {
 
         if (size < 10) {
             return false;
@@ -532,7 +530,7 @@ public class Parser {
      * @param size
      * @return 
      */
-    private int join(int startPoint, int size) {
+    private int join( ArrayList<String> instruction, int startPoint, int size) {
         if (startPoint + 1 > size) {
             return -1;
         }
@@ -594,7 +592,7 @@ public class Parser {
      * @param endToken
      * @return 
      */
-    private int columns(int startPoint, int size, String endToken) {
+    private int columns( ArrayList<String> instruction,int startPoint, int size, String endToken) {
 
         String startToken = instruction.get(startPoint);
 
@@ -656,7 +654,7 @@ public class Parser {
      * @param finishToken
      * @return 
      */
-    private int columnDefinition(int startPoint, int size, String finishToken) {
+    private int columnDefinition( ArrayList<String> instruction,  int startPoint, int size, String finishToken) {
 
         int phase = 0;
 
@@ -731,7 +729,7 @@ public class Parser {
      * @param requirement
      * @return 
      */
-    private int whereStatement(int start, int size, int requirement) {
+    private int whereStatement( ArrayList<String> instruction, int start, int size, int requirement) {
 
         if (!(instruction.get(start).equalsIgnoreCase("where")) || isNumeric(instruction.get(start + 1))) {
             return -1;

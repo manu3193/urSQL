@@ -168,6 +168,7 @@ public class PlanEjecuccion {
      */
     private ArrayList<String> stop() {
 
+        
     }
 
     /**
@@ -175,6 +176,7 @@ public class PlanEjecuccion {
      */
     private ArrayList<String> getStatus() {
 
+        
     }
 
     /**
