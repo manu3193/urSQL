@@ -38,7 +38,8 @@ public class Row {
      * @return the length
      */
     public int getLength() {
-        return length;
+        
+        return this.columns.size();
     }
     
     
