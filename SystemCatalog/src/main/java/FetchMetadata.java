@@ -1,11 +1,11 @@
 /*
- * Clase utilizada para obtener datos de las tablas de la metadata, la metadata contiene 4 tablas, esas son:
- *  Tabla de los esquemas de urSQL.
+ * Clase utilizada para obtener datos de las tablas de la metadata, la metadata contiene 4 tablas, las cuales son:
+ * Tabla de los esquemas de urSQL.
  * Tabla de las tablas de todas los esquemnas de urSQL
  * Tabla de las columnas de todas las tablas  de todos los esquemas de urSQL.
- *
+ * Tabla del historico de consultas.
  */
-package ursql.systemcatalog;
+
 
 /**
  *
@@ -13,8 +13,14 @@ package ursql.systemcatalog;
  */
 public class FetchMetadata {
 
-    public void fetchSchema() {
+    /**
+     *  Retorna la tabla del historico de consultas.
+     * @return 
+     */
+    public Table fetchQueryLog() {
 
+        Table temp = select("System", "QueryLog", "all");
+        return temp;        
     }
 
     /**
@@ -38,7 +44,7 @@ public class FetchMetadata {
     }
 
     /**
-     *  Regresa la tabla de bases de datos
+     *  Regresa la tabla de las bases de datos existentes.
      * @return 
      */
     public Table fetchSchemas() {

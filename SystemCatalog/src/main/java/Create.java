@@ -5,8 +5,8 @@ import java.util.ArrayList;
  */
 
 /**
- * Clase encargada de construir el System Catalog que almacena la información que controla urSQL y las bases de datos
- * existentes.
+ * Clase encargada de construir el System Catalog que almacena la información que controla urSQL y las 
+ *  bases de datos existentes.
  * 
  */
 public class Create {
