@@ -57,4 +57,11 @@ public class FetchMetadata {
 
         return temp;
     }
+    
+    public Table fetchForeignKey() {
+        
+        Table temp = select("System", "Schema", "all");
+        
+        return temp;
+    }
 }

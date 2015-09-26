@@ -55,11 +55,12 @@ public class DropDatabase {
     private void deleteMetadata(String databaseName) {
 
         WriteMetadata deleter = new WriteMetadata();
-
         deleter.deleteEsquema(databaseName);
 
         FetchMetadata fetcher = new FetchMetadata();
         Table tablas = fetcher.fetchTables();
+        Table columnas = fetcher.fetchColumns();
+        Table foreignkeys = fetcher.fetchForeignKey();
 
         ArrayList<Row> filas = tablas.getRows();
 
@@ -76,11 +77,11 @@ public class DropDatabase {
             }
         }
 
-        ArrayList<Row> filas2 = tablas.getRows();
+        ArrayList<Row> filasColumnas = columnas.getRows();
+        // Elimina las columnas asociadas
+        for (int i = 1; i < filasColumnas.size(); i++) {
 
-        for (int i = 1; i < filas2.size(); i++) {
-
-            Row fila = filas2.get(1);
+            Row fila = filasColumnas.get(i);
             ArrayList<Field> campos = fila.getColumns();
             Field campo = campos.get(0);
 
@@ -91,6 +92,23 @@ public class DropDatabase {
                 deleter.deleteColumna( nombreTabla, nombreTabla, databaseName ) ;
             }
         }
+        ArrayList<Row> filasForeanea = foreignkeys.getRows();
+        // Elimina las llaves foraneas asociadas
+        for (int i = 1; i < filasForeanea.size(); i++) {
+
+            Row fila = filasForeanea.get(i);
+            ArrayList<Field> campos = fila.getColumns();
+            Field campo = campos.get(4);
+
+            if ( campo.getContent().equals ( databaseName )  )  {
+
+                deleter.deleteForeignKey(databaseName);
+            }
+        }        
+    }
+    
+    private void deleteSchema(){
+        
     }
 
 }

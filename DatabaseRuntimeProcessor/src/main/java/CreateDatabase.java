@@ -15,7 +15,7 @@ import Structures.Field;
 
 /**
  *
- * @author JoséAlberto
+ * @author Nicolas Jimenez
  */
 public class CreateDatabase {
 
@@ -24,7 +24,7 @@ public class CreateDatabase {
         FetchMetadata schemas = new FetchMetadata();
         Table dataBaseSchemas = schemas.fetchSchemas();
 
-        if ( ! verifyExist(dataBaseSchemas, dataBase) ) {
+        if (!verifyExist(dataBaseSchemas, dataBase)) {
             System.out.println("No se puede crear la base de datos");
             return;
         }
@@ -34,20 +34,34 @@ public class CreateDatabase {
 
     /**
      * Verifica que la base de datos no exista.
+     *
      * @param dataBaseSchemas
      * @param dataBase
-     * @return 
+     * @return
      */
     private boolean verifyExist(Table dataBaseSchemas, String dataBase) {
 
         ArrayList<Row> filas = dataBaseSchemas.getRows();
 
-        return filas.stream().map((fila) -> fila.getColumns()).noneMatch((campos) -> (!campos.stream().noneMatch((campo) -> (campo.getContent().equals(dataBase)))));
+        return filas.stream().map((fila) -> fila.getColumns()).noneMatch((campos) -> (!campos.stream().noneMatch((campo) -> ( campo.getContent().equals(dataBase)))));
+        
+//                for (Row fila : filas) {
+//        
+//            ArrayList<Field> campos = fila.getColumns();
+//            for ( Field campo : campos ) {
+//                
+//                if ( campo.getContent().equals(dataBase)){
+//                    return false;
+//                }
+//            }
+//        }
+//        return true;
     }
 
     /**
      * Agrega la metadata del nuevo esquema.
-     * @param databaseName 
+     *
+     * @param databaseName
      */
     private void addMetadata(String databaseName) {
 
@@ -57,8 +71,8 @@ public class CreateDatabase {
 
     }
 
-    private void addSchema( String databaseName) {
+    
+    private void addSchema(String databaseName) {
 
-        
     }
 }
