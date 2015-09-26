@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class Row {
 
     private ArrayList<Field> columns;
+    private String tableName;
     private final int length;
 
     public Row() {
@@ -44,4 +45,19 @@ public class Row {
     public int getLength() {
         return this.columns.size();
     }
+
+    /**
+     * @return the tableName
+     */
+    public String getTableName() {
+        return tableName;
+    }
+
+    /**
+     * @param tableName the tableName to set
+     */
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+    
 }
