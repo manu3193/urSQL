@@ -114,7 +114,7 @@ public class DisplayDatabase {
             result.append("La tabla: ");
             result.append(tablesName.get(k));
             result.append(" posee las siguientes columnas: \n");
-            result.append("Nombre Tipo IsNull isPK \n");
+            result.append("Nombre               Tipo               IsNull               isPK               \n");
 
             for (int i = 1; i < columnTable.getLength(); i++) {
                 for (int j = 0; j < columnTable.getRows().get(i).getColumns().size(); j++) { //Cantidad elementos de una fila
