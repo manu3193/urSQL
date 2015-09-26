@@ -3,21 +3,25 @@ package Structures;
 import java.util.ArrayList;
 
 /**
- * Clase encargada de crear un objeto tipo Row. La fila contiene un conjunto de campos (Field) que describen la información
- * contenida en cada columna de la tabla.
+ * Clase encargada de crear un objeto tipo Row. La fila contiene un conjunto de
+ * campos (Field) que describen la información contenida en cada columna de la
+ * tabla.
+ *
  * @author Kevin
  */
 public class Row {
+
     private ArrayList<Field> columns;
     private final int length;
-    
-    public Row(){
+
+    public Row() {
         this.columns = null;
         this.length = 0;
     }
-    public Row(ArrayList<Field> columns){
-     this.columns = columns;
-     this.length = columns.size();
+
+    public Row(ArrayList<Field> columns) {
+        this.columns = columns;
+        this.length = columns.size();
     }
 
     /**
@@ -38,10 +42,6 @@ public class Row {
      * @return the length
      */
     public int getLength() {
-        
         return this.columns.size();
     }
-    
-    
-    
 }

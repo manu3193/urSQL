@@ -51,7 +51,7 @@ public class Table {
      * @return the length
      */
     public int getLength() {
-        return length;
+        return rows.size();
     }
 
     /**

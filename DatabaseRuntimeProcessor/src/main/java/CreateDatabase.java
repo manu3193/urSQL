@@ -1,41 +1,78 @@
 /*
- * Esta clase de CreateDatabase se encarga de crear un esquema al hacer esto se agrega el esquema nuevo
+ * Esta clase de CreateDatabase se encarga de crear un esquema  (base de datos) al hacer esto 
+ * se agrega el esquema nuevo.
  * Este se agrega a la metadata del urSQL y tambien se crea una carpeta en el sistema de archivos donde se 
  * agregaran las tablas. 
  *
  */
 
+import java.util.ArrayList;
+import Structures.Table;
+import ursql.systemcatalog.FetchMetadata;
+import ursql.systemcatalog.WriteMetadata;
+import Structures.Row;
+import Structures.Field;
+
 /**
  *
- * @author JoséAlberto
+ * @author Nicolas Jimenez
  */
 public class CreateDatabase {
-    
-    
-    
-    public void createDatabase( String dataBase ) {
 
-        // Process this .
-    }
-    
-    private void verifyExist() {
+    public void createDatabase(String dataBase) {
 
-        //Recorrer algo para ver si existe se pondría en prueba  
         FetchMetadata schemas = new FetchMetadata();
-        
-        schemas.
+        Table dataBaseSchemas = schemas.fetchSchemas();
+
+        if (!verifyExist(dataBaseSchemas, dataBase)) {
+            System.out.println("No se puede crear la base de datos");
+            return;
+        }
+        addMetadata(dataBase);
+        addSchema(dataBase);
     }
-    
-    private void addMetadata( String databaseName) {
+
+    /**
+     * Verifica que la base de datos no exista.
+     *
+     * @param dataBaseSchemas
+     * @param dataBase
+     * @return
+     */
+    private boolean verifyExist(Table dataBaseSchemas, String dataBase) {
+
+        ArrayList<Row> filas = dataBaseSchemas.getRows();
+
+        return filas.stream().map((fila) -> fila.getColumns()).noneMatch((campos) -> (!campos.stream().noneMatch((campo) -> ( campo.getContent().equals(dataBase)))));
         
+//                for (Row fila : filas) {
+//        
+//            ArrayList<Field> campos = fila.getColumns();
+//            for ( Field campo : campos ) {
+//                
+//                if ( campo.getContent().equals(dataBase)){
+//                    return false;
+//                }
+//            }
+//        }
+//        return true;
+    }
+
+    /**
+     * Agrega la metadata del nuevo esquema.
+     *
+     * @param databaseName
+     */
+    private void addMetadata(String databaseName) {
+
         WriteMetadata writer = new WriteMetadata();
-        
-        writer.writeEsquema( databaseName );
-        
+
+        writer.writeEsquema(databaseName);
+
     }
+
     
-    private void addSchema() {
-        
-        
+    private void addSchema(String databaseName) {
+
     }
-}   
+}

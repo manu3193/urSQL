@@ -1,3 +1,7 @@
+package ursql.systemcatalog;
+
+import Structures.Table;
+
 /*
  * Clase utilizada para obtener datos de las tablas de la metadata, la metadata contiene 4 tablas, las cuales son:
  * Tabla de los esquemas de urSQL.
@@ -51,6 +55,13 @@ public class FetchMetadata {
 
         Table temp = select("System", "Schema", "all");
 
+        return temp;
+    }
+    
+    public Table fetchForeignKey() {
+        
+        Table temp = select("System", "Schema", "all");
+        
         return temp;
     }
 }
