@@ -15,7 +15,7 @@ public class NodoArbol {
      * árbol, en este caso el grado es 4..
      */
     private int numeroLlaves;
-    private int[] llave;
+    private long[] llave;
     private Object[] objetos;
     private NodoArbol[] nodosHijo;
     private boolean esHoja;
@@ -24,7 +24,7 @@ public class NodoArbol {
 
     public NodoArbol() {
         this.numeroLlaves = 0;
-        this.llave = new int[2 * T - 1];
+        this.llave = new long[2 * T - 1];
         this.objetos = new Object[2 * T - 1];
         this.nodosHijo = new NodoArbol[2 * T];
     }
@@ -67,7 +67,7 @@ public class NodoArbol {
      * @param indice
      * @return llave que corresponde al índice ingresado.
      */
-    public int getLlave(int indice) {
+    public long getLlave(int indice) {
         return llave[indice];
     }
 
