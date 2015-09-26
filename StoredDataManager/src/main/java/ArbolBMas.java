@@ -1,4 +1,7 @@
 
+import java.io.Serializable;
+
+
 /**
  * @author Daniel Himmelein Se ha utilizado el código del URL siguiente como
  * referencia:
@@ -7,12 +10,13 @@
  * de la base de datos para posteriormente realizar el almacenamiento en disco.
  *
  */
-public class ArbolBMas {
+public class ArbolBMas implements Serializable{
 
     /**
      * Raiz es un atributo tipo NodoArbol que representa la raíz del árbol.
      */
     private NodoArbol raiz;
+    private String nombreArbol;
     private static final int T = 4;
 
     public ArbolBMas() {
@@ -271,5 +275,19 @@ public class ArbolBMas {
         System.out.println(bPlusTree.search(17));
         System.out.println(bPlusTree.recorridoEnOrden());
         System.out.println(bPlusTree.recorridoEnOrden(19, 71));
+    }
+
+    /**
+     * @return the nombreArbol
+     */
+    public String getNombreArbol() {
+        return nombreArbol;
+    }
+
+    /**
+     * @param nombreArbol the nombreArbol to set
+     */
+    public void setNombreArbol(String nombreArbol) {
+        this.nombreArbol = nombreArbol;
     }
 }

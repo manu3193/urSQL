@@ -20,7 +20,6 @@ public class NodoArbol {
     private NodoArbol[] nodosHijo;
     private boolean esHoja;
     private NodoArbol nodoSiguiente;
-
     private static final int T = 4;
 
     public NodoArbol() {
