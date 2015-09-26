@@ -31,7 +31,7 @@ public class ArbolBMas implements Serializable{
      * @param llave
      * @param objeto
      */
-    public void insertar(int llave, Object objeto) {
+    public void insertar(long llave, Object objeto) {
 
         NodoArbol nodoRaiz = raiz;
         //Condición que verifica que la llave a ingresar no esté en el árbol. Esto con el fin de evitar llaves duplicadas.
@@ -116,7 +116,7 @@ public class ArbolBMas implements Serializable{
      * @param llave
      * @param objeto
      */
-    public void insertarEnNodoNoVacio(NodoArbol nodo, int llave, Object objeto) {
+    public void insertarEnNodoNoVacio(NodoArbol nodo, long llave, Object objeto) {
         int i = nodo.getNumeroLlaves() - 1;
         if (nodo.isEsHoja()) {
             // Al no estar lleno el nodo, se inserta un nuevo elemento en el lugar correspondiente dentro del nodo.
@@ -157,7 +157,7 @@ public class ArbolBMas implements Serializable{
      * @return El valor que coincida con la llave ingresada por parámetro. Si no
      * existe en el árbol se devuelve null.
      */
-    public Object buscar(NodoArbol nodo, int llave) {
+    public Object buscar(NodoArbol nodo, long llave) {
         int i = 0;
         while (i < nodo.getNumeroLlaves() && llave > nodo.getLlave(i)) {
             i++;
@@ -172,7 +172,7 @@ public class ArbolBMas implements Serializable{
         }
     }
 
-    public Object search(int llave) {
+    public Object search(long llave) {
         return buscar(raiz, llave);
     }
 

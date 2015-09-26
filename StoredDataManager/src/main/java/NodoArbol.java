@@ -76,7 +76,7 @@ public class NodoArbol {
      * @param llave
      * @param indice 
      */
-    public void setLlave(int llave, int indice) {
+    public void setLlave(long llave, int indice) {
         this.llave[indice] = llave;
     }
 
