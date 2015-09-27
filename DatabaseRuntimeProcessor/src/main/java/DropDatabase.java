@@ -64,7 +64,7 @@ public class DropDatabase {
 
         ArrayList<Row> filas = tablas.getRows();
 
-        for (int i = 1; i < filas.size(); i++) {
+        for (int i = 0; i < filas.size(); i++) {
 
             Row fila = filas.get(i);
             ArrayList<Field> campos = fila.getColumns();
@@ -79,7 +79,7 @@ public class DropDatabase {
 
         ArrayList<Row> filasColumnas = columnas.getRows();
         // Elimina las columnas asociadas
-        for (int i = 1; i < filasColumnas.size(); i++) {
+        for (int i = 0; i < filasColumnas.size(); i++) {
 
             Row fila = filasColumnas.get(i);
             ArrayList<Field> campos = fila.getColumns();
@@ -94,7 +94,7 @@ public class DropDatabase {
         }
         ArrayList<Row> filasForeanea = foreignkeys.getRows();
         // Elimina las llaves foraneas asociadas
-        for (int i = 1; i < filasForeanea.size(); i++) {
+        for (int i = 0; i < filasForeanea.size(); i++) {
 
             Row fila = filasForeanea.get(i);
             ArrayList<Field> campos = fila.getColumns();

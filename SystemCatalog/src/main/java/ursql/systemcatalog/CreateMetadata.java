@@ -81,6 +81,11 @@ public class CreateMetadata {
         foreignKeyColumns.add(foreignFifthCol);
 
      //Creación de las tablas del System Catalog.
+        
+      //  StoredDataManager metadata = new Stored 
+        
+       // metadata.createTable
+        
         //DatabaseRuntimeProcessor.createDatabase(catalogName);
         //DatabaseRuntimeProcessor.createTable(catalogName, schemaName, schemaColumns);    
         //DatabaseRuntimeProcessor.createTable(catalogName, tableName, tableColumns);

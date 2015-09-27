@@ -58,5 +58,9 @@ public class CreateTable {
 
         }
     }
+    
+    public void addTable(){
+        
+    }
 
 }
