@@ -8,6 +8,7 @@ package DatabaseRuntimeProcessor;/*
 import Shared.Structures.Field;
 import Shared.Structures.Row;
 import Shared.Structures.Table;
+import StoredDataManager.Main.StoredDataManager;
 import java.util.ArrayList;
 import SystemCatalog.FetchMetadata;
 import SystemCatalog.WriteMetadata;
@@ -28,7 +29,7 @@ public class DropDatabase {
             return;
         }
         deleteMetadata(dataBase);
-        //   addSchema(dataBase);
+           deleteSchema(dataBase);
     }
 
     /**
@@ -118,7 +119,10 @@ public class DropDatabase {
         }        
     }
     
-    private void deleteSchema(){
+    private void deleteSchema( String dataBase ){
+        
+        StoredDataManager temp = new StoredDataManager();
+        
         
     }
 

@@ -6,6 +6,7 @@ package DatabaseRuntimeProcessor;/*
 
 import Shared.Structures.Field;
 import Shared.Structures.Row;
+import StoredDataManager.Main.StoredDataManager;
 import java.util.ArrayList;
 import SystemCatalog.WriteMetadata;
 
@@ -18,6 +19,7 @@ public class CreateTable {
     public void createTable(String database, String nombreTabla, Row columns) {
 
         addMetadata(database, nombreTabla, columns);
+        addTable(database, nombreTabla);
     }
 
     /**
@@ -54,13 +56,16 @@ public class CreateTable {
             }
             
             metadataProcessor.writeColumna(database, nombreTabla, columna.getContent(), columna.getType(),
-                    nullability, primary, database);
+                    nullability, primary);
 
         }
     }
     
-    public void addTable(){
+    public void addTable(  String database, String tableName){
         
+       StoredDataManager temp= new StoredDataManager();
+        temp.initStoredDataManager(database);
+       temp.createTableFile( tableName );
     }
 
 }

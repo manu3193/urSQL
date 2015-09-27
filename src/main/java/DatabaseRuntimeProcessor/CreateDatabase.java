@@ -12,6 +12,7 @@ import SystemCatalog.FetchMetadata;
 import SystemCatalog.WriteMetadata;
 import Shared.Structures.Row;
 import Shared.Structures.Field;
+import StoredDataManager.Main.StoredDataManager;
 
 /**
  *
@@ -74,5 +75,9 @@ public class CreateDatabase {
     
     private void addSchema(String databaseName) {
 
+        
+        StoredDataManager temp = new StoredDataManager();
+        
+        temp.createDatabase(databaseName);
     }
 }
