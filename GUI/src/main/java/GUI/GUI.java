@@ -20,18 +20,19 @@ public class GUI extends javax.swing.JFrame {
     String[] line;
     public GUI() {
         initComponents();
+        this.setExtendedState(MAXIMIZED_BOTH);
         TextLineNumber numLine = new TextLineNumber(textEditor);
         textScrollPanel.setRowHeaderView(numLine);
         
         FixedColumnExample ejem = new FixedColumnExample();
         
         outputScrollPanel.setViewportView(ejem.table);
-        checkScrollPanel.setViewportView(ejem.fixedTable);
+        //checkScrollPanel.setViewportView(ejem.fixedTable);
         
         TreeSample tre = new TreeSample();
         treeScrollPanel.setViewportView(tre.tree);
         
-        
+        checkScrollPanel.setViewportView(textCheck);
     }
     
 
@@ -50,8 +51,10 @@ public class GUI extends javax.swing.JFrame {
         outputTab = new javax.swing.JTabbedPane();
         outputScrollPanel = new javax.swing.JScrollPane();
         checkScrollPanel = new javax.swing.JScrollPane();
+        textCheck = new javax.swing.JTextPane();
         textScrollPanel = new javax.swing.JScrollPane();
         textEditor = new javax.swing.JTextPane();
+        RUN = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         File = new javax.swing.JMenu();
         Edit = new javax.swing.JMenu();
@@ -62,9 +65,19 @@ public class GUI extends javax.swing.JFrame {
         mainPanel.setPreferredSize(new java.awt.Dimension(1000, 900));
 
         outputTab.addTab("Output", outputScrollPanel);
+
+        checkScrollPanel.setViewportView(textCheck);
+
         outputTab.addTab("Check", checkScrollPanel);
 
         textScrollPanel.setViewportView(textEditor);
+
+        RUN.setText("RUN");
+        RUN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RUNActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -75,15 +88,20 @@ public class GUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(outputTab)
-                    .addComponent(textScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)))
+                    .addComponent(textScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addComponent(RUN)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(treeScrollPanel)
             .addGroup(mainPanelLayout.createSequentialGroup()
-                .addComponent(textScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+                .addComponent(RUN)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(textScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(outputTab, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(treeScrollPanel)
         );
 
         File.setText("File");
@@ -111,7 +129,7 @@ public class GUI extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
         );
 
         pack();
@@ -119,20 +137,49 @@ public class GUI extends javax.swing.JFrame {
 
     private void RunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RunActionPerformed
         // TODO add your handling code here:
-        line = textEditor.getText().split("\\n");
-        int count = 0;
-        LexicalAnalysis lex = new LexicalAnalysis();
-        Parser par = new Parser();
-        while (count <line.length){
-            if (par.parse(lex.tokenize(line[count]))){
-                System.out.println("True");
-            }else{
-                int linea = count+1;
-                System.out.println("Error in line: " + linea);
-            }
-        count++;}
+//        String temp="";
+//        line = textEditor.getText().split("\\n");
+//        int count = 0;
+//        LexicalAnalysis lex = new LexicalAnalysis();
+//        Parser par = new Parser();
+//        System.out.println("Linea nueva");
+//        temp +="Manejo de errores\n";
+//        
+//        while (count <line.length){
+//            if (par.parse(lex.tokenize(line[count]))){
+//                System.out.println("True");
+//            }else{
+//                int linea = count+1;
+//                System.out.println("Error in line: " + linea);
+//                temp+="Error in line: " + linea+"\n";
+//            }
+//        count++;}
+//        System.out.println(temp);
+//        textCheck.setText(temp);
         
     }//GEN-LAST:event_RunActionPerformed
+
+    private void RUNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RUNActionPerformed
+        // TODO add your handling code here:
+//        String temp="";
+//        line = textEditor.getText().split("\\n");
+//        int count = 0;
+//        LexicalAnalysis lex = new LexicalAnalysis();
+//        Parser par = new Parser();
+//        System.out.println("Linea nueva");
+//        temp +="Manejo de errores\n";
+//        while (count <line.length){
+//            if (par.parse(lex.tokenize(line[count]))){
+//                System.out.println("True");
+//            }else{
+//                int linea = count+1;
+//                System.out.println("Error in line: " + linea);
+//                temp+="Error in line: " + linea+"\n";
+//            }
+//        count++;}
+//        System.out.println(temp);
+//        textCheck.setText(temp);
+    }//GEN-LAST:event_RUNActionPerformed
 
     /**
      * @param args the command line arguments
@@ -173,12 +220,14 @@ public class GUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu Edit;
     private javax.swing.JMenu File;
+    private javax.swing.JButton RUN;
     private javax.swing.JMenuItem Run;
     private javax.swing.JScrollPane checkScrollPanel;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JScrollPane outputScrollPanel;
     private javax.swing.JTabbedPane outputTab;
+    private javax.swing.JTextPane textCheck;
     private javax.swing.JTextPane textEditor;
     private javax.swing.JScrollPane textScrollPanel;
     private javax.swing.JScrollPane treeScrollPanel;
