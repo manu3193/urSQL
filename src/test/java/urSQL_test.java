@@ -1,3 +1,0 @@
-class urSQL_test{
-
-}
