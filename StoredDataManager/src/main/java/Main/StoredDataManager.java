@@ -1,11 +1,19 @@
-/**
+package Main; /**
  * Created by manzumbado on 22/09/15.
  */
 
 
+import BPlusTree.ArbolBMas;
+import DBFile.DBField;
+import DBFile.DBWriter;
+import Structures.Field;
+import Structures.Row;
+
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
-import DBFile.*;
+
+
 
 /**
  * Esta clase es la encargada de mantener las instancias de los arboles
@@ -14,7 +22,7 @@ import DBFile.*;
 public class StoredDataManager {
 
 
-    private HashMap<String,ArbolBMas> mHashBtrees;
+    private HashMap<String, ArbolBMas> mHashBtrees;
     private String mCurrentDataBase;
     private boolean isInitialized = false;
 
@@ -22,7 +30,7 @@ public class StoredDataManager {
      * Constante que almacena la direccion de la carpeta en el sistema donde se almacenan las bases
      * de datos
      */
-    protected static final String  DIRECTORIO_DATOS = "StoredDataManager"+File.separator+"Databases";
+    protected static final String  DIRECTORIO_DATOS = "Main.StoredDataManager"+File.separator+"Databases";
     protected static final String EXTENSION_ARCHIVO_TABLA =".db";
     protected static final String EXTENSION_ARCHIVO_ARBOL=".index";
 
@@ -45,18 +53,21 @@ public class StoredDataManager {
             }
             setIsInitialized(true);
         }catch (IOException e){
-            System.err.println("Error al inicializar StoredDataManager: " + e.getMessage());
+            System.err.println("Error al inicializar Main.StoredDataManager: " + e.getMessage());
         }
     }
 
     /**
-     * Metodo encargado de establecer la carpeta de bases de datos en la que realiza acciones el StoredDataManager
+     * Metodo encargado de establecer la carpeta de bases de datos en la que realiza acciones el Main.StoredDataManager
      * @param currentDataBase
      */
     public void setCurrentDataBase(String currentDataBase){
         this.mCurrentDataBase=currentDataBase;
     }
 
+    public String getmCurrentDataBase() {
+        return mCurrentDataBase;
+    }
 
     /**
      * Metodo encargado de obterner los nombres de los archivos que contirnen los arboles serializados
@@ -104,7 +115,50 @@ public class StoredDataManager {
 
 
 
-    public int insertIntoTable()
+    public int insertIntoTable(Row row){
+        int result=-1;
+        if(getisInitialized()){
+            String targetTable= row.getTableName();
+            ArrayList<Field> fields = row.getColumns();
+            DBField dbField;
+            ArbolBMas Btree;
+            String rowPKValue=null;
+            String valueToInsert;
+            try{
+                DBWriter writer= new DBWriter();
+                writer.setTableFile(DIRECTORIO_DATOS + File.separator + getmCurrentDataBase() + File.separator + targetTable + EXTENSION_ARCHIVO_TABLA);
+                long[] offsets= new long[fields.size()];
+                if(this.mHashBtrees.containsKey(targetTable)){
+                    Btree=this.mHashBtrees.get(targetTable);
+                }else{
+                    System.err.println("Error al ingresar datos, la tabla no existe");
+                    return -1;
+                }
+                for(int i=0; i<fields.size();i++){
+                    if(fields.get(i).isPrimaryKey()){
+                        rowPKValue=fields.get(i).getContent();
+                    }else{
+                        valueToInsert= fields.get(i).getContent();
+                        dbField= new DBField(valueToInsert, valueToInsert.getBytes().length);
+                        offsets[i]= writer.writeToDBFile(dbField);
+                    }
+                }
+                writer.closeFile();
+                //BigInteger hexString=new BigInteger(rowPKValue,rowPKValue.length());
+                long hexString= Long.decode(rowPKValue);
+                Btree.insertar(hexString,offsets);
+                result= 1;
+            }catch(Exception ex){
+                System.err.println("Ha ocurrido un problema al ingresar datos, error: " +ex.getMessage());
+                result= -1;
+            }
+        }
+        return result;
+    }
+
+   // public int dropDatabase(){
+
+    //}
 
 
 
@@ -171,10 +225,13 @@ public class StoredDataManager {
 
     public int createTableFile(String name){
         int result = 0;
+        ArbolBMas Btree= new ArbolBMas();
         if(getisInitialized()){
             try{
                 RandomAccessFile file= new RandomAccessFile(DIRECTORIO_DATOS+File.separator+mCurrentDataBase+File.separator+name+EXTENSION_ARCHIVO_TABLA, "rw");
                 file.close();
+                Btree.setNombreArbol(name);
+                this.mHashBtrees.put(name,Btree);
                 result=1;
             } catch (IOException exc){
                 System.err.println("No se ha podido crear la tabla "+name+", error: "+ exc.getMessage());
@@ -207,15 +264,24 @@ public class StoredDataManager {
         storedDataManager.setCurrentDataBase("prueba");
         storedDataManager.createTableFile("Tabla1");
 
-        DBField[] field= new DBField[3];
-        field[0]= new DBField("campo1","valor1",10);
-        field[1]= new DBField("campo2","valor2",10);
-        field[2]= new DBField("campo3","valor3",10);
+        ArrayList<Field> fields = new ArrayList<Field>();
+        fields.add(new Field("valor123456","String",false,"Tabla1", "prueba",true));
+        fields.add(new Field("valorabcdefg", "String", false,"Tabla1", "prueba",true));
+        fields.add(new Field("valorqwerty","String",false,"Tabla1", "prueba",true));
+        fields.add(new Field("valor0987654321","String",false,"Tabla1", "prueba",true));
+        fields.add(new Field("valor3193", "String", false,"Tabla1", "prueba",true));
+        Row row = new Row(fields);
+        storedDataManager.insertIntoTable(row);
 
-
-        DBWriter writer = new DBWriter();
-        writer.setTableFile(DIRECTORIO_DATOS+File.separator+storedDataManager.mCurrentDataBase+File.separator+"Tabla1"+EXTENSION_ARCHIVO_TABLA);
-
+        fields = new ArrayList<Field>();
+        fields.add(new Field("valorc1","String",false,"Tabla1", "prueba",true));
+        fields.add(new Field("valorcacabubu", "String", false,"Tabla1", "prueba",true));
+        fields.add(new Field("valormecague","String",false,"Tabla1", "prueba",true));
+        fields.add(new Field("valoryisuscrist","String",false,"Tabla1", "prueba",true));
+        fields.add(new Field("valor4194","String",false,"Tabla1", "prueba",true));
+        row = new Row(fields);
+        storedDataManager.insertIntoTable(row);
+/*
         long[] offsets= new long[3];
 
         for (int i=0; i<3;i++){
@@ -229,9 +295,9 @@ public class StoredDataManager {
         storedDataManager.createTableFile("Tabla2");
 
         field= new DBField[3];
-        field[0]= new DBField("campo1","cacabubu",10);
-        field[1]= new DBField("campo2","123456778890",10);
-        field[2]= new DBField("campo3","ayercomipescado",10);
+        field[0]= new DBField("cacabubu",10);
+        field[1]= new DBField("123456778890",10);
+        field[2]= new DBField("ayercomipescado",10);
 
 
         writer = new DBWriter();
@@ -280,10 +346,10 @@ public class StoredDataManager {
 
 
 
-        //StoredDataManager sdm = new StoredDataManager();
+        //Main.StoredDataManager sdm = new Main.StoredDataManager();
         //sdm.initStoredDataManager("prueba");
 
-
+*/
 
 
     }

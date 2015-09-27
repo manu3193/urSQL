@@ -14,13 +14,11 @@ public class DBField {
 
     private int mFieldLength;
     private String mValue;
-    private String mFieldName;
 
     public DBField(){
     }
 
-    public DBField(String fieldName, String value, int length){
-        this.mFieldName=fieldName;
+    public DBField(String value, int length){
         this.mValue=value;
         this.mFieldLength=length;
     }
@@ -33,15 +31,8 @@ public class DBField {
         return mValue;
     }
 
-    public String getFieldName() {
-        return mFieldName;
-    }
     public void setValue(String mValue) {
         this.mValue = mValue;
-    }
-
-    public void setFieldName(String mFieldName) {
-        this.mFieldName = mFieldName;
     }
 
     public void setFieldLength(int mFieldLength) {
@@ -52,7 +43,6 @@ public class DBField {
     public String toString(){
         String length =  Integer.toString(this.getFieldLength());
         String value = this.getValue();
-        String fieldname=this.getFieldName();
-        return "Length: "+ length+" Field Name: "+fieldname+ " Value: "+value;
+        return "Length: "+ length+ " Value: "+value;
     }
 }
