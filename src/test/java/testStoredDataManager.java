@@ -14,25 +14,26 @@ public class testStoredDataManager {
 
 
         StoredDataManager storedDataManager = new StoredDataManager();
+        System.out.println(System.getProperty("user.dir"));
         storedDataManager.createDatabase("prueba");
         storedDataManager.initStoredDataManager("prueba");
         storedDataManager.createTableFile("Tabla1");
 
         ArrayList<Field> fields = new ArrayList<Field>();
         fields.add(new Field("valor123456","String",false,"Tabla1", "prueba",true));
-        fields.add(new Field("valorabcdefg", "String", false,"Tabla1", "prueba",true));
-        fields.add(new Field("valorqwerty","String",false,"Tabla1", "prueba",true));
-        fields.add(new Field("valor0987654321","String",false,"Tabla1", "prueba",true));
-        fields.add(new Field("valor3193", "String", false,"Tabla1", "prueba",true));
+        fields.add(new Field("valorabcdefg", "String", false,"Tabla1", "prueba",false));
+        fields.add(new Field("valorqwerty","String",false,"Tabla1", "prueba",false));
+        fields.add(new Field("valor0987654321","String",false,"Tabla1", "prueba",false));
+        fields.add(new Field("valor3193", "String", false,"Tabla1", "prueba",false));
         Row row = new Row(fields);
         storedDataManager.insertIntoTable(row);
 
         fields = new ArrayList<Field>();
         fields.add(new Field("valorc1","String",false,"Tabla1", "prueba",true));
-        fields.add(new Field("valorcacabubu", "String", false,"Tabla1", "prueba",true));
-        fields.add(new Field("valormecague","String",false,"Tabla1", "prueba",true));
-        fields.add(new Field("valoryisuscrist","String",false,"Tabla1", "prueba",true));
-        fields.add(new Field("valor4194","String",false,"Tabla1", "prueba",true));
+        fields.add(new Field("valorcacabubu", "String", false,"Tabla1", "prueba",false));
+        fields.add(new Field("valormecague","String",false,"Tabla1", "prueba",false));
+        fields.add(new Field("valoryisuscrist","String",false,"Tabla1", "prueba",false));
+        fields.add(new Field("valor4194","String",false,"Tabla1", "prueba",false));
         row = new Row(fields);
         storedDataManager.insertIntoTable(row);
 /*

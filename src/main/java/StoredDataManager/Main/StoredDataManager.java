@@ -30,12 +30,13 @@ public class StoredDataManager {
      * Constante que almacena la direccion de la carpeta en el sistema donde se almacenan las bases
      * de datos
      */
-    protected static final String  DIRECTORIO_DATOS = "StoredDataManager"+File.separator+"Databases";
+    protected static final String  DIRECTORIO_DATOS = "Databases";
     protected static final String EXTENSION_ARCHIVO_TABLA =".db";
     protected static final String EXTENSION_ARCHIVO_ARBOL=".index";
 
 
     public StoredDataManager(){
+        mHashBtrees= new HashMap<String, ArbolBMas>();
     }
 
     /**
@@ -129,7 +130,7 @@ public class StoredDataManager {
             try{
                 DBWriter writer= new DBWriter();
                 writer.setTableFile(DIRECTORIO_DATOS + File.separator + getmCurrentDataBase() + File.separator + targetTable + EXTENSION_ARCHIVO_TABLA);
-                long[] offsets= new long[fields.size()];
+                long[] offsets= new long[fields.size()-1];
                 if(this.mHashBtrees.containsKey(targetTable)){
                     Btree=this.mHashBtrees.get(targetTable);
                 }else{
@@ -142,7 +143,7 @@ public class StoredDataManager {
                     }else{
                         valueToInsert= fields.get(i).getContent();
                         dbField= new DBField(valueToInsert, valueToInsert.getBytes().length);
-                        offsets[i]= writer.writeToDBFile(dbField);
+                        offsets[i-1]= writer.writeToDBFile(dbField);
                     }
                 }
                 writer.closeFile();
