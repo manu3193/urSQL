@@ -11,11 +11,6 @@
 
     <artifactId>StoredDataManager</artifactId>
     <dependencies>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>DatabaseRuntimeProcessor</artifactId>
-            <version>${project.version}</version>
-        </dependency>
     </dependencies>
 
 
