@@ -3,7 +3,7 @@
  * Analiza todo un conjunto de instruciones  
  * 
  */
-package DatabaseRuntimeProcessor.Analysis;
+package GUI;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;

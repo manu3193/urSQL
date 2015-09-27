@@ -1,4 +1,5 @@
-package DatabaseRuntimeProcessor;/*
+package DatabaseRuntimeProcessor;
+/*
  * DatabaseRuntimeProcessor.DropDatabase
  * Elimina un esquema de urSQL
  * con todo lo que tenga asociado como tablas y columnas
@@ -29,7 +30,7 @@ public class DropDatabase {
             return;
         }
         deleteMetadata(dataBase);
-           deleteSchema(dataBase);
+        deleteSchema(dataBase);
     }
 
     /**
@@ -47,16 +48,15 @@ public class DropDatabase {
         for (Row fila : filas) {
 
             ArrayList<Field> campos = fila.getColumns();
-            for ( Field campo : campos ) {
+            for (Field campo : campos) {
 
-                if ( campo.getContent().equals(dataBase)){
+                if (campo.getContent().equals(dataBase)) {
                     return false;
                 }
             }
         }
         return true;
     }
-
 
     /**
      * Elimina todo lo que este asociado al esquema en la metadata, incluyendo
@@ -97,11 +97,12 @@ public class DropDatabase {
             ArrayList<Field> campos = fila.getColumns();
             Field campo = campos.get(0);
 
-            if ( campo.getContent().equals ( databaseName )  )  {
+            if (campo.getContent().equals(databaseName)) {
 
                 String nombreTabla = campos.get(1).getContent();
                 String nombreColumna = campos.get(2).getContent();
-                deleter.deleteColumna( nombreTabla, nombreTabla, databaseName ) ;
+                
+                deleter.deleteColumna(nombreColumna, nombreTabla, databaseName);
             }
         }
         ArrayList<Row> filasForeanea = foreignkeys.getRows();
@@ -112,18 +113,21 @@ public class DropDatabase {
             ArrayList<Field> campos = fila.getColumns();
             Field campo = campos.get(4);
 
-            if ( campo.getContent().equals ( databaseName )  )  {
+            if (campo.getContent().equals(databaseName)) {
 
                 deleter.deleteForeignKey(databaseName);
             }
-        }        
+        }
     }
-    
-    private void deleteSchema( String dataBase ){
-        
+
+    /**
+     *  Elimina un esquema de disco.
+     * @param dataBase 
+     */
+    private void deleteSchema(String dataBase) {
+
         StoredDataManager temp = new StoredDataManager();
-        
-        
+        temp.dropDatabase(dataBase);
     }
 
 }
