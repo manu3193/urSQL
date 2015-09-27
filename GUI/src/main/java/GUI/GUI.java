@@ -5,8 +5,10 @@
  */
 package GUI;
 
-import DatabaseRuntimeProcessor.Analysis.LexicalAnalysis;
-import DatabaseRuntimeProcessor.Analysis.Parser;
+
+
+
+
 
 /**
  *
@@ -72,7 +74,7 @@ public class GUI extends javax.swing.JFrame {
 
         textScrollPanel.setViewportView(textEditor);
 
-        RUN.setText("RUN");
+        RUN.setIcon(new javax.swing.ImageIcon("C:\\Users\\JoséAlberto\\Desktop\\Escritorio\\II semestre 2015\\Bases 2015\\icon.png")); // NOI18N
         RUN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RUNActionPerformed(evt);
@@ -90,7 +92,7 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(outputTab)
                     .addComponent(textScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
                     .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addComponent(RUN)
+                        .addComponent(RUN, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         mainPanelLayout.setVerticalGroup(
@@ -98,7 +100,7 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addComponent(RUN)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(textScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
+                .addComponent(textScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(outputTab, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(treeScrollPanel)
@@ -129,7 +131,7 @@ public class GUI extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE)
         );
 
         pack();
@@ -144,16 +146,25 @@ public class GUI extends javax.swing.JFrame {
 //        Parser par = new Parser();
 //        System.out.println("Linea nueva");
 //        temp +="Manejo de errores\n";
-//        
+//        String allEntry = "";
 //        while (count <line.length){
-//            if (par.parse(lex.tokenize(line[count]))){
+//            allEntry += " " + line[count];
+//            count++;
+//        }
+//        int count2 = 0;
+//        while (count2<lex.tokenize(allEntry).size()){
+//            ArrayList<String> inst =  lex.tokenize(allEntry).get(count2);
+//            if (par.parse(lex.tokenize(allEntry).get(count2))){
 //                System.out.println("True");
 //            }else{
 //                int linea = count+1;
 //                System.out.println("Error in line: " + linea);
 //                temp+="Error in line: " + linea+"\n";
 //            }
-//        count++;}
+//        }
+//        
+//            
+//        
 //        System.out.println(temp);
 //        textCheck.setText(temp);
         
@@ -161,24 +172,25 @@ public class GUI extends javax.swing.JFrame {
 
     private void RUNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RUNActionPerformed
         // TODO add your handling code here:
-//        String temp="";
-//        line = textEditor.getText().split("\\n");
-//        int count = 0;
-//        LexicalAnalysis lex = new LexicalAnalysis();
-//        Parser par = new Parser();
-//        System.out.println("Linea nueva");
-//        temp +="Manejo de errores\n";
-//        while (count <line.length){
-//            if (par.parse(lex.tokenize(line[count]))){
-//                System.out.println("True");
-//            }else{
-//                int linea = count+1;
-//                System.out.println("Error in line: " + linea);
-//                temp+="Error in line: " + linea+"\n";
-//            }
-//        count++;}
-//        System.out.println(temp);
-//        textCheck.setText(temp);
+                String temp="";
+        line = textEditor.getText().split("\\n");
+        int count = 0;
+       LexicalAnalysis lex = new LexicalAnalysis();
+        Parser par = new Parser();
+        System.out.println("Linea nueva");
+        temp +="Manejo de errores\n";
+        
+        while (count <line.length){
+           // LexicalAnalysis lex = new LexicalAnalysis();
+            if (par.parse(lex.tokenize(line[count]))){
+                System.out.println("True");
+            }else{
+                int linea = count+1;
+               System.out.println("Error in line: " + linea);
+                temp+="Error in line: " + linea+"\n";
+         }
+        count++;}
+        textCheck.setText(temp);
     }//GEN-LAST:event_RUNActionPerformed
 
     /**
