@@ -15,7 +15,7 @@ public class testStoredDataManager {
 
         StoredDataManager storedDataManager = new StoredDataManager();
         storedDataManager.createDatabase("prueba");
-        storedDataManager.setCurrentDataBase("prueba");
+        storedDataManager.initStoredDataManager("prueba");
         storedDataManager.createTableFile("Tabla1");
 
         ArrayList<Field> fields = new ArrayList<Field>();

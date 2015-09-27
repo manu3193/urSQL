@@ -23,6 +23,7 @@ public class Row {
     public Row(ArrayList<Field> columns) {
         this.columns = columns;
         this.length = columns.size();
+        this.tableName=columns.get(1).getTableName();
     }
 
     /**

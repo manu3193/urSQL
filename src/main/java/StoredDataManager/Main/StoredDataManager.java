@@ -30,7 +30,7 @@ public class StoredDataManager {
      * Constante que almacena la direccion de la carpeta en el sistema donde se almacenan las bases
      * de datos
      */
-    protected static final String  DIRECTORIO_DATOS = "StoredDataManager.Main.StoredDataManager"+File.separator+"Databases";
+    protected static final String  DIRECTORIO_DATOS = "StoredDataManager"+File.separator+"Databases";
     protected static final String EXTENSION_ARCHIVO_TABLA =".db";
     protected static final String EXTENSION_ARCHIVO_ARBOL=".index";
 
@@ -46,19 +46,21 @@ public class StoredDataManager {
         try{
             setCurrentDataBase(databaseName);
             String[] currentIndexes = getCurrentIndexName();
-            if(currentIndexes.length>0){
-                for(int i=0; i<currentIndexes.length; i++){
-                    mHashBtrees.put(currentIndexes[i], deserealizateBtree(DIRECTORIO_DATOS+File.separator+ mCurrentDataBase+File.separator+currentIndexes[i]+EXTENSION_ARCHIVO_ARBOL));
+            if(currentIndexes!=null){
+                if(currentIndexes.length>0){
+                    for(int i=0; i<currentIndexes.length; i++){
+                        mHashBtrees.put(currentIndexes[i], deserealizateBtree(DIRECTORIO_DATOS+File.separator+ mCurrentDataBase+File.separator+currentIndexes[i]+EXTENSION_ARCHIVO_ARBOL));
+                    }
                 }
             }
-            setIsInitialized(true);
+             setIsInitialized(true);
         }catch (IOException e){
-            System.err.println("Error al inicializar StoredDataManager.Main.StoredDataManager: " + e.getMessage());
+            System.err.println("Error al inicializar StoredDataManager: " + e.getMessage());
         }
     }
 
     /**
-     * Metodo encargado de establecer la carpeta de bases de datos en la que realiza acciones el StoredDataManager.Main.StoredDataManager
+     * Metodo encargado de establecer la carpeta de bases de datos en la que realiza acciones el StoredDataManager
      * @param currentDataBase
      */
     public void setCurrentDataBase(String currentDataBase){
@@ -156,9 +158,20 @@ public class StoredDataManager {
         return result;
     }
 
-   // public int dropDatabase(){
+    public int dropDatabase(String name){
+        int result;
+        File directorio = new File(DIRECTORIO_DATOS+File.separator+name);
 
-    //}
+        if(directorio.exists()){
+            directorio.delete();
+            result=1;
+        }
+        else {
+            System.err.println("Error al crear base de datos ");
+            result= -1;
+            }
+        return result;
+    }
 
 
 
