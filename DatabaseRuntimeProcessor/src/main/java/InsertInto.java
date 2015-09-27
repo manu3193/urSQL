@@ -16,14 +16,15 @@ import ursql.systemcatalog.FetchMetadata;
 public class InsertInto {
 
     FetchMetadata metadata;
-    //StoredDataManager insertManager;
+    StoredDataManager insertManager;
     public void executeInsertion(String tableName, ArrayList<String> columns, ArrayList<String> values, String schemaName) {
         boolean doesExist;
+        Row rowToInsert= new Row();
         doesExist = verifyExistence(schemaName, tableName);
         boolean inOrder;
         if (doesExist){
-            
-            
+           rowToInsert= buildRow(columns, values, tableName, schemaName);
+           insertManager.insertIntoTable(rowToInsert);
         }else{
             System.out.println("Operation can not be completed. Table does not exist.");
         }
@@ -49,9 +50,17 @@ public class InsertInto {
         return result;
     }
     //private boolean elementsInOrder
-    private Row buildRow(ArrayList<String>columns, ArrayList<String> values){
+    private Row buildRow(ArrayList<String>columns, ArrayList<String> values, String tableName, String schemaName){
         Row newTuple = new Row();
-       
-        
+        ArrayList<Field> temp = new ArrayList<>();
+        Field element = new Field();
+        for(int i=0;i<columns.size();i++){
+            element.setContent(values.get(i));
+            element.setSchemaName(schemaName);
+            element.setTableName(tableName);
+            temp.add(element);
+        }
+        newTuple.setColumns(temp);
+        return newTuple;
     }
 }

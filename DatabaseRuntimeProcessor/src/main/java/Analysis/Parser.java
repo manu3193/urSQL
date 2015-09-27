@@ -497,7 +497,7 @@ public class Parser {
 
         if (str.isEmpty() || str.contains("+") || str.contains("-") || str.contains("*") || str.contains("?") || str.contains("!")
                 || str.contains("(") || str.contains(")") || str.contains("%") || str.contains("&") || str.contains("@") || str.contains("#")
-                || str.contains("$") || str.contains("^") || str.contains("|")) {
+                || str.contains("$") || str.contains("^") || str.contains("|") || str.contains(";")) {
             return true;
         }
         if ( str.equalsIgnoreCase("select") || str.equalsIgnoreCase("from") || str.equalsIgnoreCase("where") || 

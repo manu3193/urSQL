@@ -10,12 +10,12 @@ package Structures;
  */
 public class Field {
 
-    private final String content;
-    private final String type;
+    private String content;
+    private String type;
     private String tableName;
     private String schemaName;
-    private final boolean isNull;
-    private final boolean primaryKey;
+    private boolean isNull;
+    private boolean primaryKey;
 
     public Field(String content, String type, boolean isNull, boolean primaryKey) {
         this.content = content;
@@ -31,6 +31,14 @@ public class Field {
         this.tableName = tableName;
         this.schemaName = schemaName;
         this.primaryKey = primaryKey;
+    }
+    public Field(){
+        this.content = "";
+        this.type = "";
+        this.isNull = false;
+        this.tableName = "";
+        this.schemaName = "";
+        this.primaryKey = false;
     }
 
     /**
@@ -73,6 +81,48 @@ public class Field {
      */
     public boolean isPrimaryKey() {
         return primaryKey;
+    }
+
+    /**
+     * @param content the content to set
+     */
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    /**
+     * @param type the type to set
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    /**
+     * @param tableName the tableName to set
+     */
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+
+    /**
+     * @param schemaName the schemaName to set
+     */
+    public void setSchemaName(String schemaName) {
+        this.schemaName = schemaName;
+    }
+
+    /**
+     * @param isNull the isNull to set
+     */
+    public void setIsNull(boolean isNull) {
+        this.isNull = isNull;
+    }
+
+    /**
+     * @param primaryKey the primaryKey to set
+     */
+    public void setPrimaryKey(boolean primaryKey) {
+        this.primaryKey = primaryKey;
     }
     
 }
