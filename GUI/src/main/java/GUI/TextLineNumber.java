@@ -217,7 +217,7 @@ public class TextLineNumber extends JPanel
 		int lines = root.getElementCount();
 		int digits = Math.max(String.valueOf(lines).length(), minimumDisplayDigits);
 
-		//  Update sizes when number of digits in the line number changes
+		//  DatabaseRuntimeProcessor.Update sizes when number of digits in the line number changes
 
 		if (lastDigits != digits)
 		{

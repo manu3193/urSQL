@@ -5,8 +5,8 @@
  */
 package GUI;
 
-import Analysis.LexicalAnalysis;
-import Analysis.Parser;
+import DatabaseRuntimeProcessor.Analysis.LexicalAnalysis;
+import DatabaseRuntimeProcessor.Analysis.Parser;
 
 /**
  *

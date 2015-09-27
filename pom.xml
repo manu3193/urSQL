@@ -9,13 +9,10 @@
     <module>CLI</module>
     <module>GUI</module>
     <module>API</module>
-    <module>DatabaseRuntimeProcessor</module>
-    <module>StoredDataManager</module>
-    <module>SystemCatalog</module>
   </modules>
   <packaging>pom</packaging>
 
-  <name>urSQL</name>
+  <name>main</name>
   <url>http://maven.apache.org</url>
 
   <properties>
