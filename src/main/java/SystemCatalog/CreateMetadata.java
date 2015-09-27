@@ -1,13 +1,12 @@
-package ursql.systemcatalog;
+package SystemCatalog;
 
-
+import StoredDataManager.Main.StoredDataManager;
 import java.util.ArrayList;
 
 /**
  *
  * @author Kevin
  */
-
 /**
  * Clase encargada de construir el System Catalog que almacena la información
  * que controla urSQL y las bases de datos existentes.
@@ -48,15 +47,13 @@ public class CreateMetadata {
         String columnThirdCol = "Column";
         String columnFourthCol = "Type";
         String columnFifthCol = "Constraint";
-        String columnSixthCol = "ForeignKey";
-        String columnSeventhCol = "PrimaryKey'";
+        String columnSixthCol = "PrimaryKey'";
         columnColumns.add(columnFirstCol);
         columnColumns.add(columnSecondCol);
         columnColumns.add(columnThirdCol);
         columnColumns.add(columnFourthCol);
         columnColumns.add(columnFifthCol);
         columnColumns.add(columnSixthCol);
-        columnColumns.add(columnSeventhCol);
 
         //Definición de las columnas a ingresar en la tabla Query Log.
         ArrayList<String> queryColumns = new ArrayList<String>();
@@ -80,12 +77,17 @@ public class CreateMetadata {
         foreignKeyColumns.add(foreignFourthCol);
         foreignKeyColumns.add(foreignFifthCol);
 
-     //Creación de las tablas del System Catalog.
-        
-      //  StoredDataManager metadata = new Stored 
-        
-       // metadata.createTable
-        
+        //Creación de las tablas del System Catalog.
+        StoredDataManager metadata = new StoredDataManager();
+        metadata.createDatabase(catalogName);
+        metadata.createTableFile(schemaName);
+        metadata.createTableFile(tableName);
+        metadata.createTableFile(columnName);
+        metadata.createTableFile(schemaName);
+        metadata.createTableFile(queryLogName);
+        metadata.createTableFile(foreignKeyName);
+
+        // metadata.createTable
         //DatabaseRuntimeProcessor.createDatabase(catalogName);
         //DatabaseRuntimeProcessor.createTable(catalogName, schemaName, schemaColumns);    
         //DatabaseRuntimeProcessor.createTable(catalogName, tableName, tableColumns);
