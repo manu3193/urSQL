@@ -43,19 +43,19 @@ public class CreateDatabase {
 
         ArrayList<Row> filas = dataBaseSchemas.getRows();
 
-        return filas.stream().map((fila) -> fila.getColumns()).noneMatch((campos) -> (!campos.stream().noneMatch((campo) -> ( campo.getContent().equals(dataBase)))));
+        //return filas.stream().map((fila) -> fila.getColumns()).noneMatch((campos) -> (!campos.stream().noneMatch((campo) -> ( campo.getContent().equals(dataBase)))));
         
-//                for (Row fila : filas) {
-//        
-//            ArrayList<Field> campos = fila.getColumns();
-//            for ( Field campo : campos ) {
-//                
-//                if ( campo.getContent().equals(dataBase)){
-//                    return false;
-//                }
-//            }
-//        }
-//        return true;
+                for (Row fila : filas) {
+
+            ArrayList<Field> campos = fila.getColumns();
+            for ( Field campo : campos ) {
+
+                if ( campo.getContent().equals(dataBase)){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**

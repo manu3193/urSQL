@@ -23,7 +23,7 @@ public class DisplayDatabase {
      */
     public String displayDatabase(String schemaName) {
         boolean doesExist;
-        ArrayList<String> tablesName = new ArrayList<>();
+        ArrayList<String> tablesName = new ArrayList<String>();
         doesExist = verifyExistence(schemaName);
         String resultToPrint1 = "";
         String resultToPrint2 = "";
@@ -60,7 +60,7 @@ public class DisplayDatabase {
         Table tableSet;
         tableSet = metadata.fetchTables();
         int i = 1;
-        ArrayList<String> tables = new ArrayList<>();
+        ArrayList<String> tables = new ArrayList<String>();
         while (i < tableSet.getLength()) {
             for (int j = 0; j < tableSet.getRows().get(i).getColumns().size(); j++) {
                 if (tableSet.getRows().get(i).getColumns().get(0).getContent().equals(schemaName)) {

@@ -18,7 +18,7 @@ public class LexicalAnalysis {
 
     public LexicalAnalysis() {
 
-        this.instructions = new ArrayList<>();
+        this.instructions = new ArrayList<ArrayList<String>> ();
     }
 
     /**

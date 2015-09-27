@@ -30,19 +30,19 @@ public class CreateMetadata {
         String foreignKeyName = "ForeignKey";
 
         //Definición de las columnas a ingresar en tabla Schema.
-        ArrayList<String> schemaColumns = new ArrayList<>();
+        ArrayList<String> schemaColumns = new ArrayList<String>();
         String schema = "SchemaName";
         schemaColumns.add(schema);
 
         //Definición de las columnas a ingresar en tabla Table.
-        ArrayList<String> tableColumns = new ArrayList<>();
+        ArrayList<String> tableColumns = new ArrayList<String>();
         String tableFirstCol = "SchemaName";
         String tableSecondCol = "TableName";
         tableColumns.add(tableFirstCol);
         tableColumns.add(tableSecondCol);
 
         //Definición de las columnas a ingresar en la tabla Column.
-        ArrayList<String> columnColumns = new ArrayList<>();
+        ArrayList<String> columnColumns = new ArrayList<String>();
         String columnFirstCol = "Schema";
         String columnSecondCol = "Table";
         String columnThirdCol = "Column";
@@ -59,7 +59,7 @@ public class CreateMetadata {
         columnColumns.add(columnSeventhCol);
 
         //Definición de las columnas a ingresar en la tabla Query Log.
-        ArrayList<String> queryColumns = new ArrayList<>();
+        ArrayList<String> queryColumns = new ArrayList<String>();
         String queryFirstCol = "Schema";
         String querySecondCol = "Table";
         String queryThirdCol = "Query";
@@ -68,7 +68,7 @@ public class CreateMetadata {
         queryColumns.add(queryThirdCol);
 
         //Definición de las columnas a ingresar en la tabla Foreign Key.
-        ArrayList<String> foreignKeyColumns = new ArrayList<>();
+        ArrayList<String> foreignKeyColumns = new ArrayList<String>();
         String foreignFirstCol = "Column";
         String foreignSecondCol = "OriginTable";
         String foreignThirdCol = "ColumnReferenced";

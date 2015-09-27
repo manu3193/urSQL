@@ -1,6 +1,8 @@
 
 package SystemCatalog;
 
+import DatabaseRuntimeProcessor.*;
+
 /*
  * WriteMetadata!
  * Esta clase sirve para escribir informacion dentro de la metadata de main
@@ -144,14 +146,14 @@ public class WriteMetadata {
     public void writerForeignKey(String column, String originTable, String columnReferenced, String tableReferenced,
             String schema) {
 
-        ArrayList<String> tempCol = new ArrayList<>();
+        ArrayList<String> tempCol = new ArrayList<String>();
         tempCol.add("Column");
         tempCol.add("OriginTabla");
         tempCol.add("ColumnReferenced");
         tempCol.add("TableReferenced");
         tempCol.add("Schema");
 
-        ArrayList<String> tempVal = new ArrayList<>();
+        ArrayList<String> tempVal = new ArrayList<String>();
         tempVal.add(column);
         tempVal.add(originTable);
         tempVal.add(columnReferenced);

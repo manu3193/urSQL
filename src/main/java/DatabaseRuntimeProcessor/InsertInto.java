@@ -54,7 +54,7 @@ public class InsertInto {
     //private boolean elementsInOrder
     private Row buildRow(ArrayList<String>columns, ArrayList<String> values, String tableName, String schemaName){
         Row newTuple = new Row();
-        ArrayList<Field> temp = new ArrayList<>();
+        ArrayList<Field> temp = new ArrayList<Field>();
         Field element = new Field();
         for(int i=0;i<columns.size();i++){
             element.setContent(values.get(i));
