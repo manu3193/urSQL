@@ -12,7 +12,7 @@ import Shared.Structures.Row;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import java.util.LinkedHashMap;
 
 
 /**
@@ -25,6 +25,7 @@ public class StoredDataManager {
     private HashMap<String, ArbolBMas> mHashBtrees;
     private String mCurrentDataBase;
     private boolean isInitialized = false;
+    //private CacheModule=null;
 
     /**
      * Constante que almacena la direccion de la carpeta en el sistema donde se almacenan las bases
@@ -32,7 +33,8 @@ public class StoredDataManager {
      */
     protected static final String  DIRECTORIO_DATOS = "Databases";
     protected static final String EXTENSION_ARCHIVO_TABLA =".db";
-    protected static final String EXTENSION_ARCHIVO_ARBOL=".index";
+    protected static final String EXTENSION_ARCHIVO_ARBOL=".tree";
+    protected static final String EXTENSION_ARCHIVO_INDICE=".index";
 
 
     public StoredDataManager(){
@@ -46,7 +48,7 @@ public class StoredDataManager {
     public void initStoredDataManager(String databaseName){
         try{
             setCurrentDataBase(databaseName);
-            String[] currentIndexes = getCurrentIndexName();
+            String[] currentIndexes = getCurrentTreeName();
             if(currentIndexes!=null){
                 if(currentIndexes.length>0){
                     for(int i=0; i<currentIndexes.length; i++){
@@ -77,7 +79,7 @@ public class StoredDataManager {
      * @return
      * @throws IOException
      */
-    private String[] getCurrentIndexName() throws IOException {
+    private String[] getCurrentTreeName() throws IOException {
         File directorio = new File(DIRECTORIO_DATOS + File.separator + mCurrentDataBase);
         return directorio.list(new FilenameFilter() {
 
@@ -117,7 +119,12 @@ public class StoredDataManager {
     }
 
 
-
+    /**
+     * Metodo encargado de insertar una fila en el sistema de archivos.
+     *
+     * @param row
+     * @return
+     */
     public int insertIntoTable(Row row){
         int result=-1;
         if(getisInitialized()){
@@ -125,11 +132,21 @@ public class StoredDataManager {
             ArrayList<Field> fields = row.getColumns();
             DBField dbField;
             ArbolBMas Btree;
+            LinkedHashMap<String,Long> keyHash;
             String rowPKValue=null;
+            long rowPKIndex;
+            long lastRowPKIndex;
             String valueToInsert;
             try{
                 DBWriter writer= new DBWriter();
                 writer.setTableFile(DIRECTORIO_DATOS + File.separator + getmCurrentDataBase() + File.separator + targetTable + EXTENSION_ARCHIVO_TABLA);
+                keyHash= deserealizateIndex(DIRECTORIO_DATOS + File.separator + getmCurrentDataBase() + File.separator + targetTable + EXTENSION_ARCHIVO_INDICE);
+                int keyHashSize=keyHash.size();
+                if(keyHashSize>0){
+                    lastRowPKIndex=keyHashSize;
+                }else{
+                    lastRowPKIndex=0;
+                }
                 long[] offsets= new long[fields.size()-1];
                 if(this.mHashBtrees.containsKey(targetTable)){
                     Btree=this.mHashBtrees.get(targetTable);
@@ -140,6 +157,8 @@ public class StoredDataManager {
                 for(int i=0; i<fields.size();i++){
                     if(fields.get(i).isPrimaryKey()){
                         rowPKValue=fields.get(i).getContent();
+                        keyHash.put(rowPKValue,lastRowPKIndex);
+                        lastRowPKIndex++;
                     }else{
                         valueToInsert= fields.get(i).getContent();
                         dbField= new DBField(valueToInsert, valueToInsert.getBytes().length);
@@ -147,9 +166,8 @@ public class StoredDataManager {
                     }
                 }
                 writer.closeFile();
-                //BigInteger hexString=new BigInteger(rowPKValue,rowPKValue.length());
-                long hexString= Long.decode(rowPKValue);
-                Btree.insertar(hexString,offsets);
+                Btree.insertar(keyHash.get(rowPKValue),offsets);
+                serializateIndex(keyHash,DIRECTORIO_DATOS + File.separator + getmCurrentDataBase() + File.separator + targetTable + EXTENSION_ARCHIVO_INDICE);
                 result= 1;
             }catch(Exception ex){
                 System.err.println("Ha ocurrido un problema al ingresar datos, error: " +ex.getMessage());
@@ -159,34 +177,50 @@ public class StoredDataManager {
         return result;
     }
 
-    public int dropDatabase(String name){
-        int result;
-        File directorio = new File(DIRECTORIO_DATOS+File.separator+name);
-
-        if(directorio.exists()){
-            directorio.delete();
-            result=1;
-        }
-        else {
-            System.err.println("Error al crear base de datos ");
-            result= -1;
+    public int dropTable(String name) {
+        int result=0;
+        try{
+            if (isInitialized){
+                File archivoArbol = new File(DIRECTORIO_DATOS+File.separator+getmCurrentDataBase()+File.separator+name+EXTENSION_ARCHIVO_ARBOL);
+                File archivoDatos = new File(DIRECTORIO_DATOS+File.separator+getmCurrentDataBase()+File.separator+name+EXTENSION_ARCHIVO_TABLA;
+                File archivoIndex = new File(DIRECTORIO_DATOS+File.separator+getmCurrentDataBase()+File.separator+name+EXTENSION_ARCHIVO_INDICE);
+                if(archivoArbol.delete()){
+                    result= 1;
+                }
+                if(archivoDatos.delete()){
+                    result=1;
+                }if(archivoIndex.delete()) {
+                    result = 1;
+                }
             }
+        }catch(IOException e){
+            System.err.print("Hubo un problema al eliminar la tabla, error: "+ e.getMessage());
+            result=-1;
+        }
         return result;
     }
 
 
 
+    public int dropDatabase(String name){
+        int result;
+        if(!name.equals(this.getmCurrentDataBase())){
+            File directorio = new File(DIRECTORIO_DATOS+File.separator+name);
 
-
-
-
-
-
-
-
-
-
-
+            if(directorio.exists()){
+                directorio.delete();
+                result=1;
+            }
+            else {
+                System.err.println("Error al crear base de datos ");
+                result= -1;
+            }
+        }else{
+            System.err.println("Error al crear base de datos ");
+            result= -1;
+        }
+        return result;
+    }
 
 
     private int serializateBtree(ArbolBMas Btree, String pathFile){
@@ -219,6 +253,64 @@ public class StoredDataManager {
         return deserializedBtree;
     }
 
+    /**
+     *
+     * @param hashkey
+     * @param pathfile
+     * @return
+     */
+    private int serializateIndex(LinkedHashMap<String,Long> hashkey, String pathfile){
+        try{
+            FileOutputStream outputFile= new FileOutputStream(pathfile);
+            ObjectOutputStream outputStream = new ObjectOutputStream(outputFile);
+            outputStream.writeObject(hashkey);
+            outputStream.close();
+            outputFile.close();
+            return 1;
+        } catch(IOException e){
+            System.err.println("No se ha podido guardar el 'indice en disco, error: " + e.getMessage());
+            return -1;
+        }
+    }
+
+    /**
+     * Metodo encargado de deserializar un indice almacenado en disco, segun el nombre
+     * @param filepath ubicacion y nombre del archivo
+     * @return Carga el hash que almacena el indice
+     */
+    private LinkedHashMap<String,Long> deserealizateIndex(String filepath){
+        LinkedHashMap<String,Long> deserializedBtree=null;
+        try{
+            FileInputStream inputFile= new FileInputStream(filepath);
+            ObjectInputStream inputStream = new ObjectInputStream(inputFile);
+            deserializedBtree= (LinkedHashMap<String,Long>) inputStream.readObject();
+            inputStream.close();
+            inputFile.close();
+        } catch (IOException e) {
+            System.err.println("No se ha podido deserealizar el indice, error: "+ e.getMessage());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return deserializedBtree;
+    }
+
+    /**
+     * Metodo encargado de escribir en disco el contenido de los arboles
+     * @return
+     */
+    public int flushToDisk(){
+        try{
+            File[] listaTablas= getNombreTablas();
+            for(int i=0; i<listaTablas.length;i++){
+                serializateBtree(listaTablas[i], DIRECTORIO_DATOS + File.separator + getmCurrentDataBase() + File.separator + listaTablas[i].getName() + EXTENSION_ARCHIVO_ARBOL);
+            }
+            return 1;
+        } catch(IOException e){
+            System.err.println("No se ha podido guardar el arbol en disco, error: " + e.getMessage());
+            return -1;
+        }
+    }
+
 
 
 
@@ -240,12 +332,14 @@ public class StoredDataManager {
     public int createTableFile(String name){
         int result = 0;
         ArbolBMas Btree= new ArbolBMas();
+        LinkedHashMap<String,Long> hashKeys= new LinkedHashMap<String, Long>();
         if(getisInitialized()){
             try{
                 RandomAccessFile file= new RandomAccessFile(DIRECTORIO_DATOS+File.separator+mCurrentDataBase+File.separator+name+EXTENSION_ARCHIVO_TABLA, "rw");
                 file.close();
                 Btree.setNombreArbol(name);
                 this.mHashBtrees.put(name,Btree);
+                serializateIndex(hashKeys,DIRECTORIO_DATOS+File.separator+mCurrentDataBase+File.separator+name+EXTENSION_ARCHIVO_INDICE);
                 result=1;
             } catch (IOException exc){
                 System.err.println("No se ha podido crear la tabla "+name+", error: "+ exc.getMessage());
