@@ -1,4 +1,4 @@
-package SystemCatalog;
+package ursql.systemcatalog;
 
 
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 /**
  * Clase encargada de construir el System Catalog que almacena la información
- * que controla main y las bases de datos existentes.
+ * que controla urSQL y las bases de datos existentes.
  *
  */
 public class CreateMetadata {
@@ -81,6 +81,11 @@ public class CreateMetadata {
         foreignKeyColumns.add(foreignFifthCol);
 
      //Creación de las tablas del System Catalog.
+        
+      //  StoredDataManager metadata = new Stored 
+        
+       // metadata.createTable
+        
         //DatabaseRuntimeProcessor.createDatabase(catalogName);
         //DatabaseRuntimeProcessor.createTable(catalogName, schemaName, schemaColumns);    
         //DatabaseRuntimeProcessor.createTable(catalogName, tableName, tableColumns);

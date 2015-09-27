@@ -15,7 +15,7 @@ import SystemCatalog.WriteMetadata;
 
 /**
  *
- * @author nicolasjimenez
+ * @author Nicolas Jimenez
  */
 public class DropTable {
    

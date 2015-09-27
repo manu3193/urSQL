@@ -9,6 +9,8 @@ package SystemCatalog;
  */
 import java.util.ArrayList;
 
+
+
 /**
  *
  * @author Nicolas Jimenez
@@ -27,8 +29,9 @@ public class WriteMetadata {
 
         tempValor.add(nombreEsquema);
         tempCol.add("SchemaName");
-
-        insertInto("System", "Schema", tempCol, tempValor);
+        DropTable temp = new DropTable();
+        
+        insertInto( "Schema",  tempCol, tempValor , "System" );
     }
 
     /**
@@ -38,7 +41,7 @@ public class WriteMetadata {
      */
     public void deleteEsquema(String nombreEsquema) {
 
-        delete("System", "Schema", "SchemaName", "=", nombreEsquema);
+        delete( "SchemaName","Schema", "=", nombreEsquema,  "System");
     }
 
     /**
