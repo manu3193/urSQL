@@ -14,29 +14,23 @@ import java.util.StringTokenizer;
  */
 public class LexicalAnalysis {
 
-    private final ArrayList<String> instructions;
-
-    public LexicalAnalysis() {
-
-        this.instructions = new ArrayList<String> ();
-    }
-
     /**
      *  Instruccion que tokeniza las instrucciones por espacios y separa instruccion por instruccion por ";" 
      * @param instruction 
      * @return  
      */
     public ArrayList<String> tokenize(String instruction) {
-
+        
+        ArrayList<String> instruccions = new ArrayList<String>();
         StringTokenizer tokens = new StringTokenizer(instruction);
 
         while (tokens.hasMoreElements()) {
 
             String elementoActual = tokens.nextToken();
 
-                instructions.add( elementoActual);
+                instruccions.add( elementoActual);
         }
-        return instructions;
+        return instruccions;
     }
 
 
