@@ -1,6 +1,7 @@
 package SystemCatalog;
 
 import DatabaseRuntimeProcessor.*;
+import StoredDataManager.Main.StoredDataManager;
 
 /*
  * WriteMetadata!
@@ -10,6 +11,8 @@ import DatabaseRuntimeProcessor.*;
  */
 import java.util.ArrayList;
 import DatabaseRuntimeProcessor.InsertInto;
+import Shared.Structures.Field;
+import Shared.Structures.Row;
 
 /**
  *
@@ -24,16 +27,17 @@ public class WriteMetadata {
      */
     public void writeEsquema(String nombreEsquema) {
 
-        ArrayList<String> tempValor = new ArrayList();
-        ArrayList<String> tempCol = new ArrayList();
+        StoredDataManager inserter = new StoredDataManager();
+        inserter.initStoredDataManager("System");
 
-        tempValor.add(nombreEsquema);
-        tempCol.add("SchemaName");
-        DropTable temp = new DropTable();
+        ArrayList<Field> campo = new ArrayList<Field>();
+        Field fielder = new Field(nombreEsquema, "String", false, "SchemaName", "System", false);
+        campo.add(fielder);
 
-        InsertInto inserter = new InsertInto();
+        Row filas = new Row(campo);
 
-        inserter.executeInsertion("Schema", tempCol, tempValor, "System");
+        inserter.insertIntoTable(filas);
+
     }
 
     /**
@@ -43,9 +47,11 @@ public class WriteMetadata {
      */
     public void deleteEsquema(String nombreEsquema) {
 
-        Delete deleter = new Delete ("Schema", "SchemaName" , "=", nombreEsquema );
-        
-   //     delete("SchemaName", "Schema", "=", nombreEsquema, "System");
+        StoredDataManager deleter = new StoredDataManager();
+        deleter.initStoredDataManager("System");
+
+        //  Delete deleter = new Delete ("Schema", "SchemaName" , "=", nombreEsquema );
+        //     delete("SchemaName", "Schema", "=", nombreEsquema, "System");
     }
 
     /**
@@ -56,16 +62,18 @@ public class WriteMetadata {
      */
     public void writeTabla(String nombreEsquema, String nombreTabla) {
 
-        ArrayList<String> tempValor = new ArrayList();
-        ArrayList<String> tempCol = new ArrayList();
+        StoredDataManager inserter = new StoredDataManager();
 
-        tempValor.add(nombreEsquema);
-        tempValor.add(nombreTabla);
-        tempCol.add("SchemaName");
-        tempCol.add("TableName");
+        inserter.initStoredDataManager("System");
+        ArrayList<Field> campo = new ArrayList<Field>();
+        Field fieldEsquema = new Field(nombreEsquema, "String", false, "SchemaName", "System", true);
+        Field fieldTabla = new Field(nombreTabla, "String", false, "TableName", "System", false);
 
-        InsertInto inserter = new InsertInto();
-        inserter.executeInsertion("Table", tempCol, tempValor, "System");
+        campo.add(fieldEsquema);
+        campo.add(fieldTabla);
+        Row temp = new Row(campo);
+
+        inserter.insertIntoTable(temp);
     }
 
     /**
@@ -90,27 +98,26 @@ public class WriteMetadata {
      * @param primaryKey
      */
     public void writeColumna(String nombreEsquema, String nombreTabla, String nombreColumna, String tipo,
-            String constraints,  String primaryKey) {
+            String constraints, String primaryKey) {
 
-        ArrayList<String> tempCol = new ArrayList();
-        tempCol.add("Schema");
-        tempCol.add("Table");
-        tempCol.add("Column");
-        tempCol.add("Type");
-        tempCol.add("Constraint");
-        tempCol.add("Schema");
-        tempCol.add("PrimaryKey");
+        StoredDataManager inserter = new StoredDataManager();
+        inserter.initStoredDataManager("System");
+        ArrayList<Field> campo = new ArrayList<Field>();
 
-        ArrayList<String> tempVal = new ArrayList();
-        tempVal.add(nombreEsquema);
-        tempVal.add(nombreTabla);
-        tempVal.add(nombreColumna);
-        tempVal.add(tipo);
-        tempVal.add(constraints);
-        tempVal.add(primaryKey);
+        Field fieldE = new Field(nombreEsquema, "String", false, "Schema", "System", true);
+        Field fieldTa = new Field(nombreTabla, "String", false, "Table", "System", false);
+        Field fieldCol = new Field(nombreColumna, "String", false, "Column", "System", false);
+        Field fieldTy = new Field(tipo, "String", false, "Type", "System", true);
+        Field fieldCo = new Field(constraints, "String", false, "Constraint", "System", true);
+        Field fieldPK = new Field(primaryKey, "String", false, "Primarykey", "System", true);
 
-        InsertInto inserter = new InsertInto();
-        inserter.executeInsertion("Column", tempCol ,tempVal, "System");
+        campo.add(fieldE);
+        campo.add(fieldTa);
+        campo.add(fieldCol);
+        campo.add(fieldTy);
+        campo.add(fieldPK);
+        Row temp = new Row(campo);
+        inserter.insertIntoTable(temp);
     }
 
     /**
@@ -144,7 +151,11 @@ public class WriteMetadata {
         tempCol.add("Table");
         tempCol.add("Query");
 
-        InsertInto inserter = new InsertInto();
+        StoredDataManager inserter = new StoredDataManager();
+        inserter.initStoredDataManager("System");
+        ArrayList<Field> campo = new ArrayList<Field>();
+
+     //   InsertInto inserter = new InsertInto();
         inserter.executeInsertion("QueryLog", tempCol, tempValor, "System");
     }
 
@@ -174,7 +185,7 @@ public class WriteMetadata {
         tempVal.add(schema);
 
         InsertInto inserter = new InsertInto();
-        inserter.executeInsertion("ForeignKey", tempCol, tempVal,"System");
+        inserter.executeInsertion("ForeignKey", tempCol, tempVal, "System");
     }
 
     /**

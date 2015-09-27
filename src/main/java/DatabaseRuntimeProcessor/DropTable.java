@@ -3,6 +3,7 @@ package DatabaseRuntimeProcessor;
 import Shared.Structures.Field;
 import Shared.Structures.Row;
 import Shared.Structures.Table;
+import StoredDataManager.Main.StoredDataManager;
 import java.util.ArrayList;
 import SystemCatalog.FetchMetadata;
 import SystemCatalog.WriteMetadata;
@@ -30,7 +31,7 @@ public class DropTable {
             return;
         
         deleteFromMetadata( nombreEsquema, nombreTabla );
-        deleteFromDisc();
+        deleteFromDisc( nombreEsquema,  nombreTabla);
     }
     
     /**
@@ -99,7 +100,9 @@ public class DropTable {
             
             if ( esquema.equals(nombreEsquema) && tabla.equals(nombreTabla) ){
                 
-   //             editer.deleteColumna(columna, nombreTabla, nombreEsquema);
+                String nombreColumna = campos.get(2).getContent();
+                
+                editer.deleteColumna(nombreColumna, nombreTabla, nombreEsquema);
             }
         }
         
@@ -114,13 +117,14 @@ public class DropTable {
             
             if ( esquema.equals(nombreEsquema) && tabla.equals(nombreTabla) ){
                 
-         //       editer.deleteForeignKey(esquema);
+               editer.deleteForeignKey(esquema);
             }
         }        
     }
     
-    public void deleteFromDisc(){
+    public void deleteFromDisc(String databaseName, String tableName){
         
+        StoredDataManager temp = new StoredDataManager();    
     }
     
 }

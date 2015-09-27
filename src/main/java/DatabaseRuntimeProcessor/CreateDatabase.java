@@ -42,6 +42,8 @@ public class CreateDatabase {
      */
     private boolean verifyExist(Table dataBaseSchemas, String dataBase) {
 
+        System.out.println("entro");
+        
         ArrayList<Row> filas = dataBaseSchemas.getRows();
 
         //return filas.stream().map((fila) -> fila.getColumns()).noneMatch((campos) -> (!campos.stream().noneMatch((campo) -> ( campo.getContent().equals(dataBase)))));

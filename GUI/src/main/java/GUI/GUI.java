@@ -5,6 +5,9 @@
  */
 package GUI;
 
+import javax.swing.JButton;
+import javax.swing.JMenuItem;
+
 
 
 
@@ -244,4 +247,36 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane textScrollPanel;
     private javax.swing.JScrollPane treeScrollPanel;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * 
+     * @return 
+     */
+    public JButton getRUN() {
+        return RUN;
+    }
+
+    /**
+     * 
+     * @param RUN 
+     */
+    public void setRUN(JButton RUN) {
+        this.RUN = RUN;
+    }
+
+    /**
+     * 
+     * @return 
+     */
+    public JMenuItem getRun() {
+        return Run;
+    }
+
+    /**
+     * 
+     * @param Run 
+     */
+    public void setRun(JMenuItem Run) {
+        this.Run = Run;
+    }
 }

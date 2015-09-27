@@ -1,5 +1,6 @@
 package GUI;
 
+import DatabaseRuntimeProcessor.CreateDatabase;
 import java.util.ArrayList;
 
 
@@ -70,8 +71,14 @@ public class Parser {
                     return false;
                 }
 
-                return !isNumeric(instruction.get(2));
-
+                if (  !isNumeric(instruction.get(2)) ){
+                    
+                    CreateDatabase temp = new CreateDatabase(  );
+                    temp.createDatabase(instruction.get(2));
+                    return true;
+                }
+                return false;
+                
             } else if (token1.equalsIgnoreCase("table")) {
 
                 return createTable(instruction, instructionSize);

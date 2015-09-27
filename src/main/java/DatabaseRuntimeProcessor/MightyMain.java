@@ -5,6 +5,7 @@ package DatabaseRuntimeProcessor;/*
  */
 
 import DatabaseRuntimeProcessor.Analysis.LexicalAnalysis;
+import GUI.GUI;
 
 import java.util.ArrayList;
 
@@ -21,10 +22,14 @@ public class MightyMain {
      */
     public static void main(String[] args) {
 
+        GUI guiInstance = new GUI();
+        
+        
+        
         LexicalAnalysis lex = new LexicalAnalysis();
-        ArrayList<ArrayList<String>> instructionSet = lex.tokenize(null);
+        ArrayList<String> instructionSet = lex.tokenize(null);
 
-        for (ArrayList<String> instruccion : instructionSet) {
+        for (String instruccion : instructionSet) {
 
             
         }
