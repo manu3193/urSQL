@@ -1,4 +1,3 @@
-
 package SystemCatalog;
 
 import DatabaseRuntimeProcessor.*;
@@ -10,8 +9,7 @@ import DatabaseRuntimeProcessor.*;
  * nombres de columnas con tipo, si es llave primaria y si es llave foranea. 
  */
 import java.util.ArrayList;
-
-
+import DatabaseRuntimeProcessor.InsertInto;
 
 /**
  *
@@ -32,8 +30,10 @@ public class WriteMetadata {
         tempValor.add(nombreEsquema);
         tempCol.add("SchemaName");
         DropTable temp = new DropTable();
-        
-        insertInto( "Schema",  tempCol, tempValor , "System" );
+
+        InsertInto inserter = new InsertInto();
+
+        inserter.executeInsertion("Schema", tempCol, tempValor, "System");
     }
 
     /**
@@ -43,7 +43,9 @@ public class WriteMetadata {
      */
     public void deleteEsquema(String nombreEsquema) {
 
-        delete( "SchemaName","Schema", "=", nombreEsquema,  "System");
+        Delete deleter = new Delete ("Schema", "SchemaName" , "=", nombreEsquema );
+        
+   //     delete("SchemaName", "Schema", "=", nombreEsquema, "System");
     }
 
     /**
@@ -62,7 +64,8 @@ public class WriteMetadata {
         tempCol.add("SchemaName");
         tempCol.add("TableName");
 
-        insertInto("System", "Table", tempCol, tempValor);
+        InsertInto inserter = new InsertInto();
+        inserter.executeInsertion("Table", tempCol, tempValor, "System");
     }
 
     /**
@@ -84,21 +87,30 @@ public class WriteMetadata {
      * @param nombreColumna
      * @param tipo
      * @param constraints
-     * @param foreignKey
      * @param primaryKey
      */
     public void writeColumna(String nombreEsquema, String nombreTabla, String nombreColumna, String tipo,
-            String constraints, String foreignKey, String primaryKey) {
+            String constraints,  String primaryKey) {
 
-        ArrayList<String> temp = new ArrayList();
-        temp.add(nombreEsquema);
-        temp.add(nombreTabla);
-        temp.add(nombreColumna);
-        temp.add(tipo);
-        temp.add(constraints);
-        temp.add(foreignKey);
-        temp.add(primaryKey);
-        insertInto("System", "Columns", temp);
+        ArrayList<String> tempCol = new ArrayList();
+        tempCol.add("Schema");
+        tempCol.add("Table");
+        tempCol.add("Column");
+        tempCol.add("Type");
+        tempCol.add("Constraint");
+        tempCol.add("Schema");
+        tempCol.add("PrimaryKey");
+
+        ArrayList<String> tempVal = new ArrayList();
+        tempVal.add(nombreEsquema);
+        tempVal.add(nombreTabla);
+        tempVal.add(nombreColumna);
+        tempVal.add(tipo);
+        tempVal.add(constraints);
+        tempVal.add(primaryKey);
+
+        InsertInto inserter = new InsertInto();
+        inserter.executeInsertion("Column", tempCol ,tempVal, "System");
     }
 
     /**
@@ -132,7 +144,8 @@ public class WriteMetadata {
         tempCol.add("Table");
         tempCol.add("Query");
 
-        insertInto("System", tempCol, tempValor);
+        InsertInto inserter = new InsertInto();
+        inserter.executeInsertion("QueryLog", tempCol, tempValor, "System");
     }
 
     /**
@@ -160,14 +173,16 @@ public class WriteMetadata {
         tempVal.add(tableReferenced);
         tempVal.add(schema);
 
-        insertInto("System", tempCol, tempVal);
+        InsertInto inserter = new InsertInto();
+        inserter.executeInsertion("ForeignKey", tempCol, tempVal,"System");
     }
 
     /**
      * Elimina una llave foranea por esquema
-     * @param schema 
+     *
+     * @param schema
      */
-    public void deleteForeignKey( String schema) {
+    public void deleteForeignKey(String schema) {
 
         delete("System", "Schema", "", "=", schema);
 

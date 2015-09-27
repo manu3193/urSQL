@@ -30,94 +30,73 @@ public class PlanEjecucion {
      */
     public ArrayList<String> procesar() {
 
-        switch (comando) {
+        if (comando.equals("createDatabase")) {
 
-            case "createDatabase":
+            return createDatabase();
 
-                createDatabase();
-                break;
+        } else if (comando.equals("dopDatabase")) {
+            
+            return dropDatabase();
 
-            case "dropDatabase":
+        } else if (comando.equals("listDatabase")) {
+            
+            return listDatabases();
 
-                dropDatabase();
-                break;
+        } else if (comando.equals("stop")) {
 
-            case "listDatabase":
+          //  return stop;
+          return null;  
+            
+        } else if (comando.equals("start")) {
 
-                listDatabases();
-                break;
+            return null;
+            
+        } else if (comando.equals("getStatus")) {
+            
+            return null;
 
-            case "stop":
+        } else if (comando.equals("display")) {
+            
+            return display();
 
-                stop();
-                break;
+        } else if (comando.equals("set")) {
+            
+            return null;
 
-            case "start":
+        } else if (comando.equals("createTable")) {
+            
+            return createTable();
 
-                start();
-                break;
+        } else if (comando.equals("alter")) {
 
-            case "getStatus":
+            return alter();
+            
+        } else if (comando.equals("dropTable")) {
 
-                getStatus();
-                break;
+            return dropTable();
+            
+        } else if (comando.equals("createIndex")) {
 
-            case "display":
+            return createIndex();
+            
+        } else if (comando.equals("select")) {
 
-                display();
-                break;
+            return select();
+            
+        } else if (comando.equals("delete")) {
 
-            case "set":
+            return delete();
+            
+        } else if (comando.equals("insert")) {
 
-                set();
-                break;
+            return insert();
+            
+        } else {
 
-            case "createTable":
-
-                createTable();
-                break;
-
-            case "alter":
-
-                alter();
-                break;
-
-            case "dropTable":
-
-                dropTable();
-                break;
-
-            case "createIndex":
-
-                createIndex();
-                break;
-
-            case "select":
-
-                select();
-                break;
-
-            case "update":
-
-                update();
-                break;
-
-            case "delete":
-
-                delete();
-                break;
-
-            case "insert":
-
-                insert();
-                break;
-
-            default:
-                System.out.println("Error. This is odd, please explain me what's going on.");
-                return null;
+            System.err.print("Error invalid command");
+            System.out.println("should not have happened");
+            return null;
         }
-        System.out.println("Error");
-        return null;
     }
 
     /**
@@ -167,19 +146,13 @@ public class PlanEjecucion {
     /**
      * Wish I know.
      */
-    private ArrayList<String> stop() {
-
-        
-    }
-
+//    private ArrayList<String> stop() {
+    //   }
     /**
      * @return
      */
-    private ArrayList<String> getStatus() {
-
-        
-    }
-
+    //   private ArrayList<String> getStatus() {
+//    }
     /**
      * @return
      */
@@ -323,10 +296,8 @@ public class PlanEjecucion {
     /**
      * @return
      */
-    private ArrayList<String> start() {
-
-    }
-
+    //   private ArrayList<String> start() {
+    // }
     /**
      * @return
      */
@@ -334,11 +305,11 @@ public class PlanEjecucion {
 
         String line1 = "Se analiza que la instruccion de drop table este bien formulada";
         String line2 = "Se busca en la metadata del System Catalog la informacion sobre la tabla: "
-                + instruccion.get(2) ;
+                + instruccion.get(2);
         String line3 = "Se elimina el arbol B+ asociado a esta tabla " + instruccion.get(2);
         plan.add(line1);
         plan.add(line2);
         plan.add(line3);
-        return plan;        
+        return plan;
     }
 }

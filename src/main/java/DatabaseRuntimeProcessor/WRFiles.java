@@ -1,4 +1,5 @@
-package DatabaseRuntimeProcessor;/*
+package DatabaseRuntimeProcessor;
+/*
  *Clase que se encarga de escribir y leer archivos planos del plan de ejecucion 
  * Es temporal hasta que se pueda almacenar en el arbol B+
  */
